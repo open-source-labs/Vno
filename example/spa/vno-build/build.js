@@ -325,13 +325,13 @@ const App = {
   },
 };
 
-const vno624500 = Vue.createApp(App)
-vno624500.component("vue-js", VueJs)
-vno624500.component("lighthouse", Lighthouse)
-vno624500.component("individual-comment", IndividualComment)
-vno624500.component("travel", Travel)
-vno624500.component("destinations", Destinations)
-vno624500.component("deno", Deno)
-vno624500.component("home", Home)
+const vno418439 = Vue.createApp(App)
+vno418439.component("vue-js", VueJs)
+vno418439.component("lighthouse", Lighthouse)
+vno418439.component("individual-comment", IndividualComment)
+vno418439.component("travel", Travel)
+vno418439.component("destinations", Destinations)
+vno418439.component("deno", Deno)
+vno418439.component("home", Home)
 
-vno624500.mount("#app")
+vno418439.mount("#app")
