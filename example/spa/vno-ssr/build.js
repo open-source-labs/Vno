@@ -1,10 +1,10 @@
 /* eslint-disable */
 /* eslint-disable prettier/prettier */
 // deno-lint-ignore-file
-import Vue from "https://deno.land/x/vue_js@/mod.js";
+import * as Vue from "https://deno.land/x/vue_js@/mod.js";
 
-const IndividualComment = Vue.component("individual-comment", {
-  template:  /* html */ `
+const IndividualComment = {
+  template: /* html */ `
   <div>
     <li>
       <img class="post-img" :src="commentpost.authorImg" />
@@ -15,10 +15,10 @@ const IndividualComment = Vue.component("individual-comment", {
 `,
   name: 'individual-comment',
   props: ["commentpost"],
-});
+};
 
-const Destinations = Vue.component("destinations", {
-  template:  /* html */ `
+const Destinations = {
+  template: /* html */ `
   <div class="place">
     <img :src="location.img" width="235" height="300" />
     <slot></slot>
@@ -26,10 +26,10 @@ const Destinations = Vue.component("destinations", {
   </div>
 `,
   props: ['location'],
-});
+};
 
-const Home = Vue.component("home", {
-  template:  /* html */ `
+const Home = {
+  template: /* html */ `
   <div id="home">
     <h1>Welcome to Your vno Project</h1>
     <p>
@@ -71,10 +71,10 @@ const Home = Vue.component("home", {
   </div>
 `,
   name: 'home',
-});
+};
 
-const Deno = Vue.component("deno", {
-  template:  /* html */ `
+const Deno = {
+  template: /* html */ `
   <div id="deno">
     <h1>Deno</h1>
     <a href="https://imgbb.com/"
@@ -96,10 +96,10 @@ const Deno = Vue.component("deno", {
   </div>
 `,
   name: 'deno',
-});
+};
 
-const Travel = Vue.component("travel", {
-  template:  /* html */ `
+const Travel = {
+  template: /* html */ `
   <div id="travel">
     <h1>An example Vue Component borrowed from Sarah Drasner</h1>
     <div class="location-contain">
@@ -141,10 +141,10 @@ const Travel = Vue.component("travel", {
       ],
     };
   },
-});
+};
 
-const Lighthouse = Vue.component("lighthouse", {
-  template:  /* html */ `
+const Lighthouse = {
+  template: /* html */ `
   <div id="lighthouse">
     <h3>Another example Vue Component borrowed from Sarah Drasner</h3>
     <img
@@ -204,10 +204,10 @@ const Lighthouse = Vue.component("lighthouse", {
       this.count += 1;
     },
   },
-});
+};
 
-const VueJs = Vue.component("vue-js", {
-  template:  /* html */ `
+const VueJs = {
+  template: /* html */ `
   <div id="vue-js">
     <h1>Vue.js</h1>
     <a
@@ -228,10 +228,10 @@ const VueJs = Vue.component("vue-js", {
   </div>
 `,
   name: 'vue-js',
-});
+};
 
-const App = new Vue({
-  template:  /* html */ `
+const App = {
+  template: /* html */ `
   <div id="app">
     <header class="header">
       <img
@@ -294,5 +294,14 @@ const App = new Vue({
     Lighthouse,
     VueJs,
   },
-});
+};
+
+const vno624500 = Vue.createApp(App)
+vno624500.component("vue-js", VueJs)
+vno624500.component("lighthouse", Lighthouse)
+vno624500.component("individual-comment", IndividualComment)
+vno624500.component("travel", Travel)
+vno624500.component("destinations", Destinations)
+vno624500.component("deno", Deno)
+vno624500.component("home", Home)
 export default App

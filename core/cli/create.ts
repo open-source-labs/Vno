@@ -36,7 +36,7 @@ export const createSinglePageApp = async function (
   const root: string = template.rootComponent(app);
   const rootFile = `${app.root}.vue`;
   const component: string = template.childComponent(app.components[0]);
-  const componentFiles = app.components.map(
+  const componentFiles = app.components.map( // creates vue components for each based on passed in strings
     ((sfc: string) => `components/${sfc}.vue`),
   );
   const generic: string = template.genericComponent();
@@ -151,7 +151,6 @@ export const customize = async function (obj: CreateProjectObj) {
 export const renderProgress = function (): void {
   const total = 100;
   let percent = 0;
-
   const progressBar = new ProgressBar({
     total,
     clear: true,
