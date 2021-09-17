@@ -12,6 +12,7 @@ export default {
       cmd: [
         "vno create [project-name]",
         `deno run --allow-net --allow-write --allow-read --unstable https://deno.land/x/vno@${VERSION}/install/vno.ts create [project-name]`,
+        // `deno run --allow-net --allow-write --allow-read --unstable vno/install/vno.ts create new-test-today` -LOCAL RUN CMD from vno parent directory
       ],
       about:
         "The create argument will prompt you with messages on the command line to roughly create the file structure of a simple vno application",

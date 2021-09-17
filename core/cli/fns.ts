@@ -1,6 +1,7 @@
 import { colors } from "../utils/deps.ts";
 import { cmnd, options } from "./constants.ts";
 
+// prints string in color in terminal
 export const green = function (str: string) {
   console.log(colors.green(str));
 };
@@ -9,11 +10,13 @@ export const yellow = function (str: string) {
   console.log(colors.yellow(str));
 };
 
-export const confirmation = function <S>(a: S, b: S, c: S, d: S): string {
+// Confirmation text template
+export const confirmation = function <S>(a: S, b: S, c: S, d: S, e: S): string {
   return `\nYour Project:\n\n` +
     `    Title: ${a || options.title}\n` +
     `    Root: ${b || options.root}\n` +
     `    Port: ${d || options.port}\n` +
+    `    Vue: ${e || options.vue}\n` +
     `    Additional Component(s): ${c}\n`;
 };
 

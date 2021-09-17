@@ -1,12 +1,11 @@
 import { CreateInputs } from "../dts/factory.d.ts";
-
+// user prompts
 export const promptUniversal =
   "\nAre you creating a universal app(SSG/SSR) or spa(Single Page App)?";
 export const custom = "\nWould you like to customize your vno project?";
 export const init = "\n\nInitializing your vno project...\n";
 export const creating = "\nCreating your vno project...\n";
 export const reset = "\nResetting user options\n";
-
 export const load = ":completed/:total vno load :time [:bar] :percent";
 export const pub = "public";
 export const components = "components";
@@ -20,17 +19,19 @@ export const options: CreateInputs = {
   root: "App",
   components: ["HelloVno"],
   port: 3000,
+  vue: 3
 };
-
+// command line instructions
 export const reqs: string[] = [
   "\nConfirm these results and create your project:",
   "\nName any additional components:",
   "\nPort number for server:",
   "\nLabel your root component:",
   "\nPlease enter a title:",
+  "\nVersion number for Vue:"
 ];
 
-// command tests
+// command line tests
 //these are regex's, searching for something, i means case insensitive
 export const cmnd = {
   create: /create/i,
