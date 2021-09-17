@@ -11,6 +11,9 @@ import { ComponentType } from "../utils/constants.ts";
 import { showCodeFrame } from "../lib/code_frame.ts";
 import { _, colors } from "../utils/deps.ts";
 
+// constructor function for creating a Component
+  // uses the Base class
+
 export default class Component extends Base {
   private _type: ComponentType;
   public sibling: Component | null;

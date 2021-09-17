@@ -139,9 +139,9 @@ export const htmlTemplate = (options: CreateInputs) => {
 };
 
 export const vnoConfig = (options: CreateInputs) => {
-  const { root, port, title } = options;
+  const { root, port, title, vue } = options;
   return JSON.stringify(
-    { root, entry: "./", options: { port, title } },
+    { root, entry: "./", vue, options: { port, title } },
     null,
     2,
   );

@@ -6,7 +6,6 @@ export const custom = "\nWould you like to customize your vno project?";
 export const init = "\n\nInitializing your vno project...\n";
 export const creating = "\nCreating your vno project...\n";
 export const reset = "\nResetting user options\n";
-
 export const load = ":completed/:total vno load :time [:bar] :percent";
 export const pub = "public";
 export const components = "components";
@@ -20,6 +19,7 @@ export const options: CreateInputs = {
   root: "App",
   components: ["HelloVno"],
   port: 3000,
+  vue: 3
 };
 // command line instructions
 export const reqs: string[] = [
@@ -28,6 +28,7 @@ export const reqs: string[] = [
   "\nPort number for server:",
   "\nLabel your root component:",
   "\nPlease enter a title:",
+  "\nVersion number for Vue:"
 ];
 
 // command line tests
