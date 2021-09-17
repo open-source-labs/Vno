@@ -296,12 +296,12 @@ const App = {
   },
 };
 
-const vno418439 = Vue.createApp(App)
-vno418439.component("vue-js", VueJs)
-vno418439.component("lighthouse", Lighthouse)
-vno418439.component("individual-comment", IndividualComment)
-vno418439.component("travel", Travel)
-vno418439.component("destinations", Destinations)
-vno418439.component("deno", Deno)
-vno418439.component("home", Home)
+const vno514711 = Vue.createApp(App)
+vno514711.component("vue-js", VueJs)
+vno514711.component("lighthouse", Lighthouse)
+vno514711.component("individual-comment", IndividualComment)
+vno514711.component("travel", Travel)
+vno514711.component("destinations", Destinations)
+vno514711.component("deno", Deno)
+vno514711.component("home", Home)
 export default App
