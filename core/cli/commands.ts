@@ -88,6 +88,7 @@ export const build = async function (args: string[]): Promise<void> {
     await Deno.writeTextFile(configPath, JSON.stringify(res));
   }
 
+
   //if args index 2 is not --ssr
   const path = !cmnd.buildSsr.test(args[1]) ? args[1] : undefined;
   if (path) {
@@ -97,7 +98,7 @@ export const build = async function (args: string[]): Promise<void> {
   }
 
   const vno = Factory.create();
-  //vno.build referanced the build function on the Factory prototype chain, not the CLI imput
+  //vno.build referenced the build function on the Factory prototype chain, not the CLI imput
   await vno.build();
 
   if (quietArg(args[1]) || quietArg(args[2])) print.QUIET();
