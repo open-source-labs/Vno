@@ -11,13 +11,14 @@ export const yellow = function (str: string) {
 };
 
 // Confirmation text template
-export const confirmation = function <S>(a: S, b: S, c: S, d: S, e: S): string {
+export const confirmation = function <S>(a: S, b: S, c: S, d: S, e: S, f:S): string {
   return `\nYour Project:\n\n` +
     `    Title: ${a || options.title}\n` +
     `    Root: ${b || options.root}\n` +
     `    Port: ${d || options.port}\n` +
     `    Vue: ${e || options.vue}\n` +
-    `    Additional Component(s): ${c}\n`;
+    `    Additional Component(s): ${c}\n` + 
+    `    Vue Router: ${f}\n`;
 };
 
 // prints key/values to terminal in yellow with 2-space indent

@@ -28,7 +28,8 @@ export const reqs: string[] = [
   "\nPort number for server:",
   "\nLabel your root component:",
   "\nPlease enter a title:",
-  "\nVersion number for Vue:"
+  "\nVersion number for Vue:",
+  "\nUse Vue Router:"
 ];
 
 // command line tests

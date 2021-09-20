@@ -88,6 +88,7 @@ export const build = async function (args: string[]): Promise<void> {
     await Deno.writeTextFile(configPath, JSON.stringify(res));
   }
 
+
   //if args index 2 is not --ssr
   const path = !cmnd.buildSsr.test(args[1]) ? args[1] : undefined;
   if (path) {

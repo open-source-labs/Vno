@@ -10,6 +10,7 @@ interface CreateProjectObj {
   port?: string;
   vue?: string;
   components?: string[];
+  router?: string;
   //ssr?: boolean;
 }
 
@@ -85,6 +86,18 @@ export const customize = async function (obj: CreateProjectObj) {
   fn.green(out.init);
   const reqs = out.reqs.slice();
 
+  // Vue Router - 9/18/21 - @MALRMALR
+  let router;
+  if (obj.vueRouter) {
+    //if the version exists, remove string "\nVersion number for Vue:" from req array
+    reqs.pop();
+    router = obj.vueRouter;
+  } else {
+    router = await prompt(reqs.pop() as string, "Vue Router") as string;
+  }
+
+
+
   // vue version
   let vue;
   if (obj.vue) {
@@ -142,7 +155,7 @@ export const customize = async function (obj: CreateProjectObj) {
 
   // request to confirm input
   fn.green(
-    fn.confirmation(title, root, components.join(" + "), port.toString(), vue.toString()),
+    fn.confirmation(title, root, components.join(" + "), port.toString(), vue.toString(), router),
   );
 
   let confirm;
@@ -151,7 +164,7 @@ export const customize = async function (obj: CreateProjectObj) {
   }
 
   if (preset || confirm?.trim()[0].toLowerCase() === "y") {
-    output = { title, root, components, port, vue };
+    output = { title, root, components, port, vue, router };
     fn.green(out.creating);
   } else { // reset on rejection
     fn.yellow(out.reset);
