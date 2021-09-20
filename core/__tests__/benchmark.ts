@@ -1,22 +1,23 @@
-import {
+import {  //import bench and runBenchmarks from deno URL
   bench,
   runBenchmarks,
 } from "https://deno.land/std@0.83.0/testing/bench.ts";
 
 import Factory from "../factory/Factory.ts";
 
-bench({
-  name: "complete vno runtime benchmark",
-  runs: 1,
-  func(x: { start: () => void; stop: () => void }): void {
+//***MEASURES HOW LONG BUILD METHOD TAKES TO COMPLETE***//
+bench({ //bench registers the code below to the benchmark
+  name: "complete vno runtime benchmark", //name of benchmark test
+  runs: 1, //runs one time
+  func(x: { start: () => void; stop: () => void }): void {  //start and stop function that takes no args and doesn't return anything
     x.start();
-    const vnoTest = Factory.create();
-    vnoTest.build();
-    x.stop();
+    const vnoTest = Factory.create(); //TS class to build VNO app. Factory.create() creates everything 
+    vnoTest.build(); //runs build on everything from ^^
+    x.stop(); //stops funcX.
   },
 });
 
-const res = await runBenchmarks();
+const res = await runBenchmarks(); //runBenchmarks  executes the code in bench()
 console.log(res);
 
 /*

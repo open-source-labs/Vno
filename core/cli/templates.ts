@@ -139,9 +139,9 @@ export const htmlTemplate = (options: CreateInputs) => {
 };
 
 export const vnoConfig = (options: CreateInputs) => {
-  const { root, port, title } = options;
+  const { root, port, title, vue } = options;
   return JSON.stringify(
-    { root, entry: "./", options: { port, title } },
+    { root, entry: "./", vue, options: { port, title } },
     null,
     2,
   );
@@ -188,3 +188,55 @@ app.listen({ port });
 console.log(\`Vue SSR App listening on port \${port}\`);
 
 ` as string;
+
+// template for router/index.js
+// also need to add router to 
+export const vueRouterTemplate = (options: CreateInputs) => {
+  // create routes array
+  const routesArr = [];
+  let importRoutes = '';
+  for (let i = 0; i < options.components.length; i++) {
+    let routeObj = {
+      path: `/${options.components[i].toLowerCase()}`,
+      name: `${options.components[i]}`,
+      component: options.components[i]
+    }
+    routesArr.push(routeObj);
+
+    // import statements
+    importRoutes += `import ${options.components[i]} from '../components/${options.components[i]}';\n`;
+  }
+  // create import statements for each route
+
+  // vue router 4 -> vue 3
+  // vue router 3 -> vue 2
+  if (options.version === 3) {
+    return(
+      // vue router 4 syntax
+      `import VueRouter from 'https://unpkg.com/vue-router/dist/vue-router.js' // will always grab latest version
+      ${importRoutes}
+      // options.components 
+      // loop through and add to routes array
+      
+      const routes = ${routesArr}
+  
+      const router = VueRouter.createRouter({
+        // ask if user wants to create history object?
+        // how do we handle this in deno?
+        // createWebHistory is for Vue Router 4 (vue 3 specific)
+
+        history: createWebHashHistory(),
+        routes
+      });
+  
+      module.exports = router;
+      `
+    )
+  } else if (options.version === 2) {
+    return(
+      // vue router 3 syntax
+      ``
+    )
+  }
+
+}

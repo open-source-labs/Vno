@@ -8,7 +8,9 @@ interface CreateProjectObj {
   custom?: boolean;
   root?: string;
   port?: string;
+  vue?: string;
   components?: string[];
+  router?: string;
   //ssr?: boolean;
 }
 
@@ -36,7 +38,7 @@ export const createSinglePageApp = async function (
   const root: string = template.rootComponent(app);
   const rootFile = `${app.root}.vue`;
   const component: string = template.childComponent(app.components[0]);
-  const componentFiles = app.components.map(
+  const componentFiles = app.components.map( // creates vue components for each based on passed in strings
     ((sfc: string) => `components/${sfc}.vue`),
   );
   const generic: string = template.genericComponent();
@@ -84,6 +86,30 @@ export const customize = async function (obj: CreateProjectObj) {
   fn.green(out.init);
   const reqs = out.reqs.slice();
 
+  // Vue Router - 9/18/21 - @MALRMALR
+  let router;
+  if (obj.vueRouter) {
+    //if the version exists, remove string "\nVersion number for Vue:" from req array
+    reqs.pop();
+    router = obj.vueRouter;
+  } else {
+    router = await prompt(reqs.pop() as string, "Vue Router") as string;
+  }
+
+
+
+  // vue version
+  let vue;
+  if (obj.vue) {
+    //if the version exists, remove string "\nVersion number for Vue:" from req array
+    reqs.pop();
+    vue = obj.vue;
+  } else {
+    vue = await prompt(reqs.pop() as string, "3") as string;
+  }
+  vue = parseInt(vue, 10);
+
+
   // project title
   let title;
   if (obj.title) {
@@ -129,7 +155,7 @@ export const customize = async function (obj: CreateProjectObj) {
 
   // request to confirm input
   fn.green(
-    fn.confirmation(title, root, components.join(" + "), port.toString()),
+    fn.confirmation(title, root, components.join(" + "), port.toString(), vue.toString(), router),
   );
 
   let confirm;
@@ -138,7 +164,7 @@ export const customize = async function (obj: CreateProjectObj) {
   }
 
   if (preset || confirm?.trim()[0].toLowerCase() === "y") {
-    output = { title, root, components, port };
+    output = { title, root, components, port, vue, router };
     fn.green(out.creating);
   } else { // reset on rejection
     fn.yellow(out.reset);
@@ -151,7 +177,6 @@ export const customize = async function (obj: CreateProjectObj) {
 export const renderProgress = function (): void {
   const total = 100;
   let percent = 0;
-
   const progressBar = new ProgressBar({
     total,
     clear: true,

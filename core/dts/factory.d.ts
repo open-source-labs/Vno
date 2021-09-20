@@ -27,6 +27,16 @@ export interface CreateInputs {
    * preferred port for dev server
    * default: 3000
    */
+  vue: number;
+  /**
+   *  preferred Vue version
+   *  default: 2
+   */
+  router: string;
+  /**
+   * initialized with Vue Router?
+   * default: false ??
+   */
 }
 
 // Factory library

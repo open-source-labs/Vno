@@ -3,20 +3,17 @@ export * as fs from "https://deno.land/std@0.83.0/fs/mod.ts";
 export * as path from "https://deno.land/std@0.83.0/path/mod.ts";
 export * as colors from "https://deno.land/std@0.83.0/fmt/colors.ts";
 export * as http from "https://deno.land/std@0.83.0/http/mod.ts";
-export { v4 } from "https://deno.land/std@0.88.0/uuid/mod.ts";
+export { v4 } from "https://deno.land/std@0.88.0/uuid/mod.ts"; //uuid generator
 export {
   assertEquals,
   assertNotEquals,
-} from "https://deno.land/std@0.83.0/testing/asserts.ts";
+} from "https://deno.land/std@0.83.0/testing/asserts.ts"; // testing library
 import {
   WebSocketClient,
   WebSocketServer,
 } from "https://deno.land/x/websocket@v0.1.1/mod.ts";
 export { WebSocketServer };
 export type { WebSocketClient };
-
-// Cliffy CLI Library
-// https://deno.land/x/cliffy@v0.19.2
 
 // oak
 export {
@@ -25,7 +22,7 @@ export {
   Router,
   send,
 } from "https://deno.land/x/oak@v6.5.0/mod.ts";
-export { superoak } from "https://deno.land/x/superoak@4.0.0/mod.ts";
+export { superoak } from "https://deno.land/x/superoak@4.0.0/mod.ts"; // testing lib for oak
 
 // third-party
 import _ from "https://cdn.skypack.dev/lodash"; // lodash

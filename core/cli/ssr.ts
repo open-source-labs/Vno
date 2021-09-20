@@ -9,7 +9,7 @@ export const app = opine();
  //const port = 6666;
 export const runSSR = async function (port: number, hostname: string) {
 
-
+//RENDERS VUE COMPONENTS ONTO SERVER
 const __dirname = dirname(import.meta.url);
 
  
