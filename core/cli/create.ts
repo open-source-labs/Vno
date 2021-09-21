@@ -89,7 +89,7 @@ export const customize = async function (obj: CreateProjectObj) {
   //out is all the constants being exported from the constants file -
   //out.options is referencing the interface that has a title, root, port, components
   let output = out.options;
-
+  console.log(output);
   // request if a user would like to customize.
   if (!preset) {
     const choice = await prompt(out.custom, "yes/no") as string;
@@ -108,8 +108,7 @@ export const customize = async function (obj: CreateProjectObj) {
     reqs.pop();
     router = obj.router;
   } else {
-    router = await prompt(reqs.pop() as string, "^4.0.0-0") as string;
-    output.router = router;
+    router = await prompt(reqs.pop() as string, "yes/no") as string;
   }
 
 
@@ -180,7 +179,12 @@ export const customize = async function (obj: CreateProjectObj) {
   }
 
   if (preset || confirm?.trim()[0].toLowerCase() === "y") {
-    output = { title, root, components, port, vue, router };
+    // checks for router option (yes or no)
+    // if (router?.trim()[0].toLowerCase() !== "y") {
+      output = { title, root, components, port, vue, router };
+    // } else {
+    //   output = { title, root, components, port, vue };
+    // }
     fn.green(out.creating);
   } else { // reset on rejection
     fn.yellow(out.reset);

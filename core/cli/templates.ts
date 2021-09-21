@@ -202,6 +202,9 @@ export const vue3RouterTemplate = (options: CreateInputs) => {
       // component: ${options.components[i]}
       // this needs to be /views for router to work...
       component: `() => import('../components/${options.components[i]}.vue')`
+      // component: () => import(`../components/${options.components[i]}.vue`)
+      // name: 'Home',
+      // component: Home
     }
     routesArr.push(routeObj);
 
@@ -226,8 +229,9 @@ ${importRoutes}
 
       // how do we handle this in deno?
       // createWebHistory is for Vue Router 4 (vue 3 specific)
+      // https://next.router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
 
-      history: createWebHashHistory(),
+      history: createWebHistory(),
       routes
     });
 

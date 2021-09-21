@@ -18,7 +18,7 @@ export const confirmation = function <S>(a: S, b: S, c: S, d: S, e: S, f:S): str
     `    Port: ${d || options.port}\n` +
     `    Vue: ${e || options.vue}\n` +
     `    Additional Component(s): ${c}\n` + 
-    `    Vue Router: ${f}\n`;
+    `    Vue Router: ${f || options.router}\n`;
 };
 
 // prints key/values to terminal in yellow with 2-space indent
