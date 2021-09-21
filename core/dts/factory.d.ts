@@ -35,7 +35,7 @@ export interface CreateInputs {
   router: string;
   /**
    * initialized with Vue Router?
-   * default: false ??
+   * default: ^4.0.0-0
    */
 }
 
@@ -81,6 +81,10 @@ export interface Config {
     /**
      * preferred host
      * default: "0.0.0.0"
+     */
+    router?: string;
+    /**
+     * router - version? what gets passed in as value?
      */
   };
 }

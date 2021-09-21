@@ -12,6 +12,10 @@ export const components = "components";
 export const indexhtml = `${pub}/index.html`;
 export const vnoconfig = "vno.config.json";
 export const serverTs = "server.ts";
+// vue router 
+export const router = "router";
+export const routerJs = `${router}/index.js`;
+
 
 //options is object of type CreateInputs<--interface
 export const options: CreateInputs = {
@@ -19,7 +23,8 @@ export const options: CreateInputs = {
   root: "App",
   components: ["HelloVno"],
   port: 3000,
-  vue: 3
+  vue: 3,
+  router: "^4.0.0-0"
 };
 // command line instructions
 export const reqs: string[] = [
