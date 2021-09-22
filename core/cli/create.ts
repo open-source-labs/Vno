@@ -49,9 +49,10 @@ export const createSinglePageApp = async function (
   // const vue2Router: string = template.vue2RouterTemplate(app);
   // do I need to add /views directory for all components?
 
+  // console.log(out);
 
   // Creates Folders
-  // write to app directory
+  // write to app directory 
   await fs.ensureDir(out.pub); // public dir
   await fs.ensureDir(out.components); // components dir
   //ensureDir/ensureFile are methods that check for a file. if It does not exist, it creates a file.
@@ -63,14 +64,17 @@ export const createSinglePageApp = async function (
   await fs.ensureFile(rootFile);
   await Deno.writeTextFile(rootFile, root);
   // router
-  await fs.ensureDir(out.router); // router dir
-  await fs.ensureFile(out.routerJs);
-  if (app.vue === 3){
-    await Deno.writeTextFile(out.routerJs, vue3Router);
-  } 
-  // else if (app.vue === 2) {
-  //   await Deno.writeTextFile(out.routerJs, vue2Router);
-  // }
+  const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
+  if (routerChoice === 'y') {
+    await fs.ensureDir(out.router); // router dir
+    await fs.ensureFile(out.routerJs); // router/index.js
+    // if (app.vue === 3){
+      await Deno.writeTextFile(out.routerJs, vue3Router); // writes router template to index.js
+    // } 
+    // else if (app.vue === 2) {
+    //   await Deno.writeTextFile(out.routerJs, vue2Router);
+    // }
+  }
 
 
   componentFiles.forEach(async (filename: string, i: number) => {
@@ -89,7 +93,7 @@ export const customize = async function (obj: CreateProjectObj) {
   //out is all the constants being exported from the constants file -
   //out.options is referencing the interface that has a title, root, port, components
   let output = out.options;
-  console.log(output);
+
   // request if a user would like to customize.
   if (!preset) {
     const choice = await prompt(out.custom, "yes/no") as string;
@@ -110,7 +114,7 @@ export const customize = async function (obj: CreateProjectObj) {
   } else {
     router = await prompt(reqs.pop() as string, "yes/no") as string;
   }
-
+  console.log("Router: ", router);
 
 
   // vue version
@@ -190,7 +194,7 @@ export const customize = async function (obj: CreateProjectObj) {
     fn.yellow(out.reset);
     await customize(obj);
   }
-
+  console.log(output);
   return output;
 };
 
