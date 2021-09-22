@@ -44,9 +44,15 @@ export const createSinglePageApp = async function (
   const generic: string = template.genericComponent();
   const html: string = template.htmlTemplate(app);
   const config: string = template.vnoConfig(app);
+  // router template
+  const vue3Router: string = template.vue3RouterTemplate(app);
+  // const vue2Router: string = template.vue2RouterTemplate(app);
+  // do I need to add /views directory for all components?
+
+  // console.log(out);
 
   // Creates Folders
-  // write to app directory
+  // write to app directory 
   await fs.ensureDir(out.pub); // public dir
   await fs.ensureDir(out.components); // components dir
   //ensureDir/ensureFile are methods that check for a file. if It does not exist, it creates a file.
@@ -57,6 +63,19 @@ export const createSinglePageApp = async function (
   await Deno.writeTextFile(out.vnoconfig, config);
   await fs.ensureFile(rootFile);
   await Deno.writeTextFile(rootFile, root);
+  // router
+  const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
+  if (routerChoice === 'y') {
+    await fs.ensureDir(out.router); // router dir
+    await fs.ensureFile(out.routerJs); // router/index.js
+    // if (app.vue === 3){
+      await Deno.writeTextFile(out.routerJs, vue3Router); // writes router template to index.js
+    // } 
+    // else if (app.vue === 2) {
+    //   await Deno.writeTextFile(out.routerJs, vue2Router);
+    // }
+  }
+
 
   componentFiles.forEach(async (filename: string, i: number) => {
     await fs.ensureFile(filename);
@@ -88,14 +107,14 @@ export const customize = async function (obj: CreateProjectObj) {
 
   // Vue Router - 9/18/21 - @MALRMALR
   let router;
-  if (obj.vueRouter) {
-    //if the version exists, remove string "\nVersion number for Vue:" from req array
+  if (obj.router) {
+    //if router is true, remove string "\nVue Router:" from req array
     reqs.pop();
-    router = obj.vueRouter;
+    router = obj.router;
   } else {
-    router = await prompt(reqs.pop() as string, "Vue Router") as string;
+    router = await prompt(reqs.pop() as string, "yes/no") as string;
   }
-
+  console.log("Router: ", router);
 
 
   // vue version
@@ -164,13 +183,18 @@ export const customize = async function (obj: CreateProjectObj) {
   }
 
   if (preset || confirm?.trim()[0].toLowerCase() === "y") {
-    output = { title, root, components, port, vue, router };
+    // checks for router option (yes or no)
+    // if (router?.trim()[0].toLowerCase() !== "y") {
+      output = { title, root, components, port, vue, router };
+    // } else {
+    //   output = { title, root, components, port, vue };
+    // }
     fn.green(out.creating);
   } else { // reset on rejection
     fn.yellow(out.reset);
     await customize(obj);
   }
-
+  console.log(output);
   return output;
 };
 

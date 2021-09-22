@@ -15,7 +15,7 @@ import { create as createSsg } from "../ssg/create.ts";
 //Contains Create, Build, Run, and flag commands
 export const create = async function (args: string[]): Promise<void> {
   args = Array.from(args);
-
+  console.log(args);
   // prompt user to select a type of app: universal app or single page app
   let appType: string | null = null;
   const spaFlagIndex = args.findIndex((arg) => arg === "--spa"); //checks for --spa
@@ -32,12 +32,11 @@ export const create = async function (args: string[]): Promise<void> {
   //await statement on install/vno.ts is why we have all this information at the time of run
   //pops off each arg of the array to give title, root, port, components
   const mutable = args.slice(1);
-
   const title = mutable.shift(); // sets variables based on user input being passed in CLI
   const root = mutable.shift();
   const port = mutable.shift();
-  const components = mutable.length > 0 ? mutable : undefined;
 
+  const components = mutable.length > 0 ? mutable : undefined;
   if (title) {
     const dir = `${Deno.cwd()}/${title}`; 
     await fs.ensureDir(dir); // checks if dir exists, if not creates it

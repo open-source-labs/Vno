@@ -1,4 +1,4 @@
-import { checkOptions, isStorageReady } from "../utils/type_gaurds.ts";
+import { checkOptions, isStorageReady } from "../utils/type_guards.ts";
 import { fs, path } from "../utils/deps.ts";
 import { configReader } from "../lib/config_reader.ts";
 import { vueLogger } from "../lib/vue_logger.ts";
@@ -23,6 +23,8 @@ export default class Factory {
   private _title!: string;
   private _hostname!: string;
   private _server!: string;
+  // added router
+  private _router!: string;
   //private means only accessible within instance, static refers to this property is shared amongst all instances, instance is available to all instances of factory
   private static instance: Factory;
   private constructor(options?: Config) {
@@ -71,6 +73,10 @@ export default class Factory {
       this._server = this.config.server;
       //console.log("server post mutation", this._server);
     }
+    // // added router to config - 9/21/21
+    // if (this.config.router) {
+    //   this._router = this.config.router;
+    // }
   }
   /**
    * createStorage() collects all .vue files
@@ -176,5 +182,11 @@ export default class Factory {
   get server() {
     if (this._server) return this._server;
     return null;
+  }
+
+  // added router 9/21/21
+  get router() {
+    if (this._router) return this._router;
+    return "^4.0.0-0"
   }
 }
