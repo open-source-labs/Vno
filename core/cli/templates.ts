@@ -192,46 +192,37 @@ console.log(\`Vue SSR App listening on port \${port}\`);
 // template for router/index.js
 // also need to add router to 
 export const vue3RouterTemplate = (options: CreateInputs) => {
-  // // create routes array
-  const routesArr = [];
+
+  let routes = '[';
   let importRoutes = '';
   for (let i = 0; i < options.components.length; i++) {
-    let routeObj = {
-      path: `/${options.components[i].toLowerCase()}`,
-      name: `${options.components[i]}`,
-      // component: ${options.components[i]}
-      // this needs to be /views for router to work...
-      component: `() => import('../components/${options.components[i]}.vue')`
-      // component: () => import(`../components/${options.components[i]}.vue`)
-      // name: 'Home',
-      // component: Home
-    }
-    routesArr.push(routeObj);
-
     // import statements
     importRoutes += `import ${options.components[i]} from '../components/${options.components[i]}.vue';\n`;
+    let routeObj = `{
+      path: '/${options.components[i].toLowerCase()}',
+      name: '${options.components[i]}',
+      component: ${options.components[i]}
+      // uncomment below to use lazy loading - also, remove import statement for this component at top of file.
+      // component: () => import('../components/${options.components[i]}.vue')
+    }`
+    routes += routeObj;
   }
-  // create import statements for each route
+  routes += ']';
 
   // vue router 4 -> vue 3
   // vue router 3 -> vue 2
   return(
     // vue router 4 syntax
-    `import VueRouter from 'https://unpkg.com/vue-router@3.5.2/dist/vue-router.js';\n
-${importRoutes}
-    // options.components 
-    // loop through and add to routes array
-    
-    const routes = ${JSON.stringify(routesArr)}
+    `import VueRouter from 'https://unpkg.com/vue-router@3.5.2/dist/vue-router.js';
+  ${importRoutes}
+
+    const routes = ${routes};
 
     const router = VueRouter.createRouter({
       // ask if user wants to "Use history mode for router? (Requires proper server setup for index fallback in production)"
-
-      // how do we handle this in deno?
-      // createWebHistory is for Vue Router 4 (vue 3 specific)
       // https://next.router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
 
-      history: createWebHistory(),
+      // history: createWebHistory(),
       routes
     });
 
