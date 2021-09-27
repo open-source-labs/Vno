@@ -64,6 +64,11 @@ export interface Config {
   /**
    * path to application server to for running vno run server
    */
+
+  router?: string;
+   /**
+    * router - version? what gets passed in as value?
+    */
   options?: {
     /**
      * options to further customize vno
@@ -82,10 +87,7 @@ export interface Config {
      * preferred host
      * default: "0.0.0.0"
      */
-    // router?: string;
-    /**
-     * router - version? what gets passed in as value?
-     */
+
   };
 }
 export declare namespace Vue {

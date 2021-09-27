@@ -46,10 +46,25 @@ export const createSinglePageApp = async function (
   const config: string = template.vnoConfig(app);
   // router template
   const vue3Router: string = template.vue3RouterTemplate(app);
+  const rootWithRouter: string = template.rootComponentWithRouter(app);
   // const vue2Router: string = template.vue2RouterTemplate(app);
-  // do I need to add /views directory for all components?
 
-  // console.log(out);
+
+  const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
+  if (routerChoice === 'y') {
+    await fs.ensureDir(out.router); // router dir
+    await fs.ensureFile(out.routerJs); // router/index.js
+    await Deno.writeTextFile(out.routerJs, vue3Router);
+    await fs.ensureFile(rootFile);
+    await Deno.writeTextFile(rootFile, rootWithRouter);
+    // } 
+    // else if (app.vue === 2) {
+    //   await Deno.writeTextFile(out.routerJs, vue2Router);
+    // }
+  } else {
+    await fs.ensureFile(rootFile);
+    await Deno.writeTextFile(rootFile, root);
+  }
 
   // Creates Folders
   // write to app directory 
@@ -57,26 +72,11 @@ export const createSinglePageApp = async function (
   await fs.ensureDir(out.components); // components dir
   //ensureDir/ensureFile are methods that check for a file. if It does not exist, it creates a file.
   await fs.ensureFile(out.indexhtml);
-  //Deno.write then writes into the file that was created by fs.ensureFile
   await Deno.writeTextFile(out.indexhtml, html);
+  //Deno.write then writes into the file that was created by fs.ensureFile
   await fs.ensureFile(out.vnoconfig);
   await Deno.writeTextFile(out.vnoconfig, config);
-  await fs.ensureFile(rootFile);
-  await Deno.writeTextFile(rootFile, root);
-  // router
-  const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
-  if (routerChoice === 'y') {
-    await fs.ensureDir(out.router); // router dir
-    await fs.ensureFile(out.routerJs); // router/index.js
-    // if (app.vue === 3){
-      await Deno.writeTextFile(out.routerJs, vue3Router); // writes router template to index.js
-    // } 
-    // else if (app.vue === 2) {
-    //   await Deno.writeTextFile(out.routerJs, vue2Router);
-    // }
-  }
-
-
+ 
   componentFiles.forEach(async (filename: string, i: number) => {
     await fs.ensureFile(filename);
     if (i === 0) await Deno.writeTextFile(filename, component);
@@ -88,7 +88,7 @@ export const createSinglePageApp = async function (
 
 export const customize = async function (obj: CreateProjectObj) {
   //all of these needs to be true, if one is undefined preset is undefined - short circuiting
-  const preset = obj.title && obj.port && obj.root && obj.components; //&& obj.ssr
+  const preset = obj.title && obj.port && obj.root && obj.components && obj.router; //&& obj.ssr
 
   //out is all the constants being exported from the constants file -
   //out.options is referencing the interface that has a title, root, port, components

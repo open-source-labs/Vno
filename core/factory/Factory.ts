@@ -74,9 +74,9 @@ export default class Factory {
       //console.log("server post mutation", this._server);
     }
     // // added router to config - 9/21/21
-    // if (this.config.router) {
-    //   this._router = this.config.router;
-    // }
+    if (this.config.router) {
+      this._router = this.config.router;
+    }
   }
   /**
    * createStorage() collects all .vue files
