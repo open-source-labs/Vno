@@ -192,7 +192,7 @@ console.log(\`Vue SSR App listening on port \${port}\`);
 // template for router/index.js
 // also need to add router to 
 export const vue3RouterTemplate = (options: CreateInputs) => {
-
+  
   let routes = '[';
   let importRoutes = '';
   for (let i = 0; i < options.components.length; i++) {
@@ -213,9 +213,8 @@ export const vue3RouterTemplate = (options: CreateInputs) => {
   // vue router 3 -> vue 2
   return(
     // vue router 4 syntax
-    `import VueRouter from 'https://unpkg.com/vue-router@3.5.2/dist/vue-router.js';
-  ${importRoutes}
-
+    `import VueRouter from 'https://unpkg.com/vue-router@4.0.5/dist/vue-router.global.js'
+    ${importRoutes}
     const routes = ${routes};
 
     const router = VueRouter.createRouter({
@@ -226,11 +225,37 @@ export const vue3RouterTemplate = (options: CreateInputs) => {
       routes
     });
 
-    module.exports = router;
+    export default router;
     `
   )
 }
 
 export const vue2RouterTemplate = (options: CreateInputs) => {
-  return(`vue 2 router template`);
+  let routes = '[';
+  let importRoutes = '';
+  for (let i = 0; i < options.components.length; i++) {
+    // import statements
+    importRoutes += `import ${options.components[i]} from '../components/${options.components[i]}.vue';\n`;
+    let routeObj = `{
+      path: '/${options.components[i].toLowerCase()}',
+      name: '${options.components[i]}',
+      component: ${options.components[i]}
+    }`
+    routes += routeObj;
+  }
+  routes += ']';
+
+  return (
+    `import VueRouter from 'https://unpkg.com/vue-router@3.5.2/dist/vue-router.js';
+    ${importRoutes}
+
+    const routes = ${routes};
+
+    const router = new VueRouter({
+      routes
+    });
+
+    export default router;
+    `
+  )
 }
