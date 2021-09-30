@@ -82,7 +82,7 @@ export interface Config {
      * preferred host
      * default: "0.0.0.0"
      */
-    // router?: string;
+    router?: string;
     /**
      * router - version? what gets passed in as value?
      */
@@ -216,4 +216,9 @@ export declare namespace Resolve {
       ref: string | boolean,
     ): Promise<string>;
   }
+}
+// added 9/27
+export declare namespace Router {
+  // Vue.Version 2 => Vue Router V3, Vue.Version 3 => Vue Router V4
+  export type Version = 3 | 4;
 }

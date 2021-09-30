@@ -5,6 +5,9 @@ import { hasValidInstance } from '../utils/type_guards.ts';
 import { fs } from '../utils/deps.ts';
 
 export function writeBundle(storage: Storage, isDev?: boolean): void {
+  console.log('Router: ', storage.router);
+  console.log('Storage: ', storage);
+  console.log('isDev?: ', isDev);
   fs.ensureDirSync(VnoPath.Dir);
   fs.ensureDirSync(VnoPath.DirSSR);
 

@@ -117,7 +117,7 @@ export default class Factory {
     //adds root
     this.queue.enqueue(this.storage.root);
 
-    //stays looping until queue is empty - pops one off as current component, parses it.  looks for children components
+    //stays looping until queue is empty - pops one off as current component, parses it. looks for children components
     while (!this.queue.isEmpty()) {
       const current = this.queue.dequeue() as Component;
       await current.parseComponent(this.storage, this.queue, this.variable);

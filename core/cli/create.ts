@@ -46,7 +46,7 @@ export const createSinglePageApp = async function (
   const config: string = template.vnoConfig(app);
   // router template
   const vue3Router: string = template.vue3RouterTemplate(app);
-  // const vue2Router: string = template.vue2RouterTemplate(app);
+  const vue2Router: string = template.vue2RouterTemplate(app);
   // do I need to add /views directory for all components?
 
   // console.log(out);
@@ -68,12 +68,12 @@ export const createSinglePageApp = async function (
   if (routerChoice === 'y') {
     await fs.ensureDir(out.router); // router dir
     await fs.ensureFile(out.routerJs); // router/index.js
-    // if (app.vue === 3){
+    if (app.vue === 3){
       await Deno.writeTextFile(out.routerJs, vue3Router); // writes router template to index.js
-    // } 
-    // else if (app.vue === 2) {
-    //   await Deno.writeTextFile(out.routerJs, vue2Router);
-    // }
+    } 
+    else if (app.vue === 2) {
+      await Deno.writeTextFile(out.routerJs, vue2Router);
+    }
   }
 
 
@@ -105,16 +105,15 @@ export const customize = async function (obj: CreateProjectObj) {
   fn.green(out.init);
   const reqs = out.reqs.slice();
 
-  // Vue Router - 9/18/21 - @MALRMALR
+  // Vue Router
   let router;
   if (obj.router) {
-    //if router is true, remove string "\nVue Router:" from req array
+    //if the router exists, remove string "\nVue Router:" from req array
     reqs.pop();
     router = obj.router;
   } else {
     router = await prompt(reqs.pop() as string, "yes/no") as string;
   }
-  console.log("Router: ", router);
 
 
   // vue version
