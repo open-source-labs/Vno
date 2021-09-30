@@ -1,4 +1,4 @@
-import { Component, ComponentContainer, Vue } from "../dts/factory.d.ts";
+import { Component, ComponentContainer, Vue, Router } from "../dts/factory.d.ts";
 
 /**
  * Storage class follows the Singelton design pattern
@@ -9,12 +9,17 @@ export default class Storage {
   private _vue: Vue.State;
   public size: number;
   public app: ComponentContainer;
+  // added 9/27
+  private _router: Router.Version;
+
   private static instance: Storage;
   private constructor() {
     this.app = <ComponentContainer> {};
     this._root = <Component> {};
     this._vue = <Vue.State> {};
     this.size = 0;
+    // added 9/27
+    this._router = <Router.Version> {};
   }
 
   /**
@@ -54,5 +59,14 @@ export default class Storage {
 
   set vue(vue: Vue.State) {
     this._vue = vue;
+  }
+
+  // added 9/27
+  get router() {
+    return this._router;
+  }
+
+  set router(router: Router.Version) {
+    this._router = router;
   }
 }

@@ -204,7 +204,7 @@ export const vue3RouterTemplate = (options: CreateInputs) => {
       component: ${options.components[i]}
       // uncomment below to use lazy loading - also, remove import statement for this component at top of file.
       // component: () => import('../components/${options.components[i]}.vue')
-    }`
+    },`
     routes += routeObj;
   }
   routes += ']';
@@ -214,7 +214,7 @@ export const vue3RouterTemplate = (options: CreateInputs) => {
   return(
     // vue router 4 syntax
     `import VueRouter from 'https://unpkg.com/vue-router@4.0.5/dist/vue-router.global.js'
-    ${importRoutes}
+  ${importRoutes}
     const routes = ${routes};
 
     const router = VueRouter.createRouter({
@@ -240,14 +240,14 @@ export const vue2RouterTemplate = (options: CreateInputs) => {
       path: '/${options.components[i].toLowerCase()}',
       name: '${options.components[i]}',
       component: ${options.components[i]}
-    }`
+    },`
     routes += routeObj;
   }
   routes += ']';
 
   return (
     `import VueRouter from 'https://unpkg.com/vue-router@3.5.2/dist/vue-router.js';
-    ${importRoutes}
+  ${importRoutes}
 
     const routes = ${routes};
 
