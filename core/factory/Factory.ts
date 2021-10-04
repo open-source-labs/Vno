@@ -114,6 +114,7 @@ export default class Factory {
       this.storage.root,
       this.variable,
     );
+    // console.log(this.storage.vue);
     //adds root
     this.queue.enqueue(this.storage.root);
 
