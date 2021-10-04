@@ -47,8 +47,7 @@ export const createSinglePageApp = async function (
   // router template
   const vue3Router: string = template.vue3RouterTemplate(app);
   const vue2Router: string = template.vue2RouterTemplate(app);
-  // do I need to add /views directory for all components?
-
+  const rootWithRouter: string = template.rootComponentWithRouter(app);
   // console.log(out);
 
   // Creates Folders
@@ -62,20 +61,23 @@ export const createSinglePageApp = async function (
   await fs.ensureFile(out.vnoconfig);
   await Deno.writeTextFile(out.vnoconfig, config);
   await fs.ensureFile(rootFile);
-  await Deno.writeTextFile(rootFile, root);
+  
   // router
   const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
   if (routerChoice === 'y') {
     await fs.ensureDir(out.router); // router dir
     await fs.ensureFile(out.routerJs); // router/index.js
+    // write root file with router 
+    await Deno.writeTextFile(rootFile, rootWithRouter);
     if (app.vue === 3){
       await Deno.writeTextFile(out.routerJs, vue3Router); // writes router template to index.js
     } 
     else if (app.vue === 2) {
       await Deno.writeTextFile(out.routerJs, vue2Router);
     }
+  } else {
+    await Deno.writeTextFile(rootFile, root);
   }
-
 
   componentFiles.forEach(async (filename: string, i: number) => {
     await fs.ensureFile(filename);
@@ -88,7 +90,7 @@ export const createSinglePageApp = async function (
 
 export const customize = async function (obj: CreateProjectObj) {
   //all of these needs to be true, if one is undefined preset is undefined - short circuiting
-  const preset = obj.title && obj.port && obj.root && obj.components; //&& obj.ssr
+  const preset = obj.title && obj.port && obj.root && obj.components && obj.router; //&& obj.ssr
 
   //out is all the constants being exported from the constants file -
   //out.options is referencing the interface that has a title, root, port, components
