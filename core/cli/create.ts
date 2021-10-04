@@ -46,25 +46,9 @@ export const createSinglePageApp = async function (
   const config: string = template.vnoConfig(app);
   // router template
   const vue3Router: string = template.vue3RouterTemplate(app);
+  const vue2Router: string = template.vue2RouterTemplate(app);
   const rootWithRouter: string = template.rootComponentWithRouter(app);
-  // const vue2Router: string = template.vue2RouterTemplate(app);
-
-
-  const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
-  if (routerChoice === 'y') {
-    await fs.ensureDir(out.router); // router dir
-    await fs.ensureFile(out.routerJs); // router/index.js
-    await Deno.writeTextFile(out.routerJs, vue3Router);
-    await fs.ensureFile(rootFile);
-    await Deno.writeTextFile(rootFile, rootWithRouter);
-    // } 
-    // else if (app.vue === 2) {
-    //   await Deno.writeTextFile(out.routerJs, vue2Router);
-    // }
-  } else {
-    await fs.ensureFile(rootFile);
-    await Deno.writeTextFile(rootFile, root);
-  }
+  // console.log(out);
 
   // Creates Folders
   // write to app directory 
@@ -72,11 +56,29 @@ export const createSinglePageApp = async function (
   await fs.ensureDir(out.components); // components dir
   //ensureDir/ensureFile are methods that check for a file. if It does not exist, it creates a file.
   await fs.ensureFile(out.indexhtml);
-  await Deno.writeTextFile(out.indexhtml, html);
   //Deno.write then writes into the file that was created by fs.ensureFile
+  await Deno.writeTextFile(out.indexhtml, html);
   await fs.ensureFile(out.vnoconfig);
   await Deno.writeTextFile(out.vnoconfig, config);
- 
+  await fs.ensureFile(rootFile);
+  
+  // router
+  const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
+  if (routerChoice === 'y') {
+    await fs.ensureDir(out.router); // router dir
+    await fs.ensureFile(out.routerJs); // router/index.js
+    // write root file with router 
+    await Deno.writeTextFile(rootFile, rootWithRouter);
+    if (app.vue === 3){
+      await Deno.writeTextFile(out.routerJs, vue3Router); // writes router template to index.js
+    } 
+    else if (app.vue === 2) {
+      await Deno.writeTextFile(out.routerJs, vue2Router);
+    }
+  } else {
+    await Deno.writeTextFile(rootFile, root);
+  }
+
   componentFiles.forEach(async (filename: string, i: number) => {
     await fs.ensureFile(filename);
     if (i === 0) await Deno.writeTextFile(filename, component);
@@ -105,16 +107,15 @@ export const customize = async function (obj: CreateProjectObj) {
   fn.green(out.init);
   const reqs = out.reqs.slice();
 
-  // Vue Router - 9/18/21 - @MALRMALR
+  // Vue Router
   let router;
   if (obj.router) {
-    //if router is true, remove string "\nVue Router:" from req array
+    //if the router exists, remove string "\nVue Router:" from req array
     reqs.pop();
     router = obj.router;
   } else {
     router = await prompt(reqs.pop() as string, "yes/no") as string;
   }
-  console.log("Router: ", router);
 
 
   // vue version

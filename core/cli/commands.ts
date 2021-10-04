@@ -15,7 +15,7 @@ import { create as createSsg } from "../ssg/create.ts";
 //Contains Create, Build, Run, and flag commands
 export const create = async function (args: string[]): Promise<void> {
   args = Array.from(args);
-  console.log(args);
+
   // prompt user to select a type of app: universal app or single page app
   let appType: string | null = null;
   const spaFlagIndex = args.findIndex((arg) => arg === "--spa"); //checks for --spa
