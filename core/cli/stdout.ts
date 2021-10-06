@@ -35,7 +35,7 @@ export const LISTEN = function (port: number, hostname?: string) {
 export const WARN = function (msg: string) {
   console.warn(`\n${colors.yellow(msg)}\n`);
 };
-interface DocInfo {
+interface DocInfo {  //SETS REQS FOR DOCINFO
   version: string | undefined;
   description: string;
   docs: string | undefined;
@@ -43,7 +43,7 @@ interface DocInfo {
   commands: Commands[];
   options: Commands[];
 }
-interface Commands {
+interface Commands { //SETS REQS FOR COMMANDS
   action: string;
   cmd: string[];
   about: string;
@@ -59,8 +59,8 @@ export const INFO = function (doc: DocInfo) {
   console.log(`${fn.keyYellow("module", doc.module)}`);
 };
 
+// commands
 export const CMDS = function (doc: DocInfo) {
-  // commands
   console.log("\n" + fn.keyYellow("commands"));
   doc.commands.forEach((obj: Commands) => {
     const { action, cmd, about } = obj;
@@ -72,8 +72,8 @@ export const CMDS = function (doc: DocInfo) {
   });
 };
 
+// options flags
 export const OPTIONS = function (doc: DocInfo) {
-  // options flags
   console.log("\n" + fn.keyYellow("options"));
   doc.options.forEach((obj) => {
     const { cmd, about } = obj;

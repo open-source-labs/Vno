@@ -27,6 +27,16 @@ export interface CreateInputs {
    * preferred port for dev server
    * default: 3000
    */
+  vue: number;
+  /**
+   *  preferred Vue version
+   *  default: 2
+   */
+  router: string;
+  /**
+   * initialized with Vue Router?
+   * default: ^4.0.0-0
+   */
 }
 
 // Factory library
@@ -54,6 +64,11 @@ export interface Config {
   /**
    * path to application server to for running vno run server
    */
+
+  router?: string;
+   /**
+    * router - version? what gets passed in as value?
+    */
   options?: {
     /**
      * options to further customize vno
@@ -72,6 +87,7 @@ export interface Config {
      * preferred host
      * default: "0.0.0.0"
      */
+
   };
 }
 export declare namespace Vue {
@@ -97,6 +113,7 @@ export declare namespace Vue {
     /**
      * syntax for mounting App
      */
+    // router: string // added to test router 9/30
   }
 }
 
@@ -195,6 +212,18 @@ export declare namespace Resolve {
     ): Promise<string> | void;
   }
 
+  export interface Source {
+    (
+      src: string | string[],
+      path: string,
+      ref: string | boolean,
+    ): Promise<string>;
+  }
+}
+// // added 9/27
+export declare namespace Router {
+  // Vue.Version 2 => Vue Router V3, Vue.Version 3 => Vue Router V4
+  export type Version = 3 | 4;
   export interface Source {
     (
       src: string | string[],

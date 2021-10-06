@@ -18,7 +18,7 @@ export const create = async function (args: string[]): Promise<void> {
 
   // prompt user to select a type of app: universal app or single page app
   let appType: string | null = null;
-  const spaFlagIndex = args.findIndex((arg) => arg === "--spa");
+  const spaFlagIndex = args.findIndex((arg) => arg === "--spa"); //checks for --spa
   if (spaFlagIndex >= 0) {
     appType = "spa";
     args.splice(spaFlagIndex, 1);
@@ -32,28 +32,31 @@ export const create = async function (args: string[]): Promise<void> {
   //await statement on install/vno.ts is why we have all this information at the time of run
   //pops off each arg of the array to give title, root, port, components
   const mutable = args.slice(1);
-
-  const title = mutable.shift();
+  const title = mutable.shift(); // sets variables based on user input being passed in CLI
+  const router = mutable.shift();
+  const vue = mutable.shift();
   const root = mutable.shift();
   const port = mutable.shift();
-  const components = mutable.length > 0 ? mutable : undefined;
 
+  const components = mutable.length > 0 ? mutable : undefined;
   if (title) {
-    const dir = `${Deno.cwd()}/${title}`;
-    await fs.ensureDir(dir);
-    Deno.chdir(dir);
+    const dir = `${Deno.cwd()}/${title}`; 
+    await fs.ensureDir(dir); // checks if dir exists, if not creates it
+    Deno.chdir(dir); // changes current directory to dir
   }
 
   if (appType === "universal") {
-    fn.green(out.creating);
+    fn.green(out.creating);//turns all exports from constants to green in cli
 
-    renderProgress();
+    renderProgress(); // displays progress bar
 
     await createSsg(Deno.cwd());
   } else {
     //arguments passed into CLI placed into createSinglePageApp as obj
-    await createSinglePageApp({
+    await createSinglePageApp({ //
       title,
+      router,
+      vue,
       root,
       port,
       components,
@@ -74,11 +77,11 @@ export const build = async function (args: string[]): Promise<void> {
     //If server.ts files exists, do not write over it
     const isServerTsExist: boolean = fs.existsSync(`${Deno.cwd()}/${serverTs}`);
     !isServerTsExist
-      ? await Deno.writeTextFile(serverTs, ssrTemplate)
+      ? await Deno.writeTextFile(serverTs, ssrTemplate) // if false, write text file
       : fn.green(`[${serverTs} file located]`);
     fn.yellow(`=> ${Deno.cwd()}`);
 
-    //configPAth is cwd/filename (with extention because ts)
+    //configPath is cwd/filename (with extention because ts)
     const configPath = `${Deno.cwd()}/${vnoconfig}`;
     // Deno.readTextFile returns entire contents of configFile as a string
     const json = await Deno.readTextFile(configPath);
@@ -87,6 +90,7 @@ export const build = async function (args: string[]): Promise<void> {
     res.server = `${Deno.cwd()}/${serverTs}`;
     await Deno.writeTextFile(configPath, JSON.stringify(res));
   }
+
 
   //if args index 2 is not --ssr
   const path = !cmnd.buildSsr.test(args[1]) ? args[1] : undefined;
@@ -97,12 +101,12 @@ export const build = async function (args: string[]): Promise<void> {
   }
 
   const vno = Factory.create();
-  //vno.build referanced the build function on the Factory prototype chain, not the CLI imput
+  //vno.build referenced the build function on the Factory prototype chain, not the CLI imput
   await vno.build();
 
   if (quietArg(args[1]) || quietArg(args[2])) print.QUIET();
   //"Vno build complete"
-  //ASCII function prints the logo if quiet is passed as an arg
+  //ASCII function prints the logo if quiet is not passed as an arg
   else print.ASCII();
 };
 
@@ -112,8 +116,8 @@ export const run = async function (args: string[]): Promise<void> {
   const vno = Factory.create();
   await vno.build();
 
-  if (quietArg(args[2]) || quietArg(args[3])) print.QUIET();
-  else print.ASCII();
+  if (quietArg(args[2]) || quietArg(args[3])) print.QUIET(); // no logo
+  else print.ASCII(); // prints ASCII logo
   const { port, hostname } = vno;
 
   if (cmnd.dev.test(args[1])) {
@@ -128,7 +132,7 @@ export const run = async function (args: string[]): Promise<void> {
       const handler = (await import(path.resolve(vno.server)))?.default;
       await handler();
       Deno.exit(0);
-    } catch (e) {
+    } catch (e) { // catches error and console logs it
       console.error(e);
       Deno.exit(1);
     }
@@ -139,12 +143,13 @@ export const flags = function (args: string[]): void {
   const helpArg = cmnd.help.test(args[0]);
   const infoArg = cmnd.info.test(args[0]);
 
-  if (!helpArg && !infoArg) return;
+  if (!helpArg && !infoArg) return; // if no flags, return out
 
   print.ASCII();
   print.INFO(info);
-
-  if (helpArg) {
+  
+  // if help flag is entered, print CMDS and OPTIONS to CLI
+  if (helpArg) { 
     print.CMDS(info);
     print.OPTIONS(info);
   } else console.log("\n");

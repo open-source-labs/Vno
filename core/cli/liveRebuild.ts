@@ -20,7 +20,7 @@ async function watchChanges(
 }
 
 //live reloading watching all files components for changes and will automatically run exec() code once there are changes
-interface watchOptions {
+interface watchOptions { //interface is a TS thing where it sets requirement
   ssr?: boolean;
 }
 
@@ -43,7 +43,7 @@ async function watchAndRebuild(options: watchOptions) {
     // if we had await in front of it then: this callback should not be garbage collected until
     // its all resolved. but because its recursive then will always stay in microtask queue, since the
     // function calls itself again. in this case, since we do NOT have an await keyword,
-    // it doesn't matter here because nothing else after line 33 suspend the callback untill this resumes
+    // it doesn't matter here because nothing else after line 33 suspends the callback until this resumes
     watchAndRebuild(options);
   });
 }

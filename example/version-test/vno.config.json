@@ -1,0 +1,8 @@
+{
+  "root": "App",
+  "entry": "./",
+  "options": {
+    "port": 3000,
+    "title": "version-test"
+  }
+}

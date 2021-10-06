@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app">   
     <!-- testing comment parsing -->
     <img
       src="https://svgshare.com/i/SNz.svg"

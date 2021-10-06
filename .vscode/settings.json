@@ -1,3 +1,5 @@
+//vscode import settings for default formatter (typescript && js)
+
 {
   "deno.enable": true,
   "deno.lint": true,
