@@ -1,9 +1,0 @@
-{
-  "root": "TestApp",
-  "entry": "./",
-  "vue": 3,
-  "options": {
-    "port": 8080,
-    "title": "cli-test"
-  }
-}
