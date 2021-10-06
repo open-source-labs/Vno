@@ -1,10 +1,11 @@
 import type { Component, Storage } from '../dts/factory.d.ts';
 import { lintignore, VnoPath } from '../utils/constants.ts';
 import { liveReloadScript } from '../utils/livereload.ts';
-import { hasValidInstance } from '../utils/type_gaurds.ts';
+import { hasValidInstance } from '../utils/type_guards.ts';
 import { fs } from '../utils/deps.ts';
 
 export function writeBundle(storage: Storage, isDev?: boolean): void {
+  // console.log('(/core/lib/write_bundle.ts) Storage: ', storage);
   fs.ensureDirSync(VnoPath.Dir);
   fs.ensureDirSync(VnoPath.DirSSR);
 

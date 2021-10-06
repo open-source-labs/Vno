@@ -64,6 +64,67 @@ export const rootComponent = (options: CreateInputs) => {
       width="450"
       height="auto"
     />
+
+    <${
+      options.components[0]
+    } msg="you are building: ${options.title} with vno" />
+  </div>
+</template>
+
+<script>
+import ${options.components[0]} from './components/${
+      options.components[0]
+    }.vue';
+
+export default {
+  name: '${_.kebabCase(options.root)}',
+  components: {${options.components[0]}},
+};
+
+</script>
+
+<style>
+html {
+  background-color: #203A42;
+}
+#${options.root.toLowerCase()} {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #79d0b2;
+  margin-top: 60px;
+}
+</style>`
+  );
+};
+
+export const rootComponentWithRouter = (options: CreateInputs) => {
+    let div = `<div id="nav">`;
+    let routes = '';
+    for (let i = 0; i < options.components.length; i++) {
+      const routeObj = `
+     <router-link to="/${options.components[i].toLowerCase()}">${options.components[i]}</router-link> \n`
+      routes += routeObj;
+    }
+    div += routes;
+
+    div += `</div>
+    <router-view></router-view>`;
+
+  return (
+    `<template>
+    <div id="${options.root.toLowerCase()}">
+    <img
+      src="https://user-images.githubusercontent.com/63819200/128429048-5927eb19-b151-4855-93e3-2e0755c447a2.png"
+      alt="image"
+      border="0"
+      width="450"
+      height="auto"
+    />
+    ${div}
+
+    
     <${
       options.components[0]
     } msg="you are building: ${options.title} with vno" />
@@ -116,6 +177,7 @@ export const genericComponent = () => {
 };
 
 export const htmlTemplate = (options: CreateInputs) => {
+
   return (
     `<!DOCTYPE html>
 <html lang="en">
@@ -139,9 +201,9 @@ export const htmlTemplate = (options: CreateInputs) => {
 };
 
 export const vnoConfig = (options: CreateInputs) => {
-  const { root, port, title } = options;
+  const { root, port, title, vue } = options;
   return JSON.stringify(
-    { root, entry: "./", options: { port, title } },
+    { root, entry: "./", vue, options: { port, title } },
     null,
     2,
   );
@@ -188,3 +250,74 @@ app.listen({ port });
 console.log(\`Vue SSR App listening on port \${port}\`);
 
 ` as string;
+
+// template for router/index.js
+// also need to add router to 
+export const vue3RouterTemplate = (options: CreateInputs) => {
+  
+  let routes = '[';
+  let importRoutes = '';
+  for (let i = 0; i < options.components.length; i++) {
+    // import statements
+    importRoutes += `import ${options.components[i]} from '../components/${options.components[i]}.vue';\n`;
+    const routeObj = `{
+      path: '/${options.components[i].toLowerCase()}',
+      name: '${options.components[i]}',
+      component: ${options.components[i]}
+      // uncomment below to use lazy loading - also, remove import statement for this component at top of file.
+      // component: () => import('../components/${options.components[i]}.vue')
+    },`
+    routes += routeObj;
+  }
+  routes += ']';
+
+  // vue router 4 -> vue 3
+  // vue router 3 -> vue 2
+  return(
+    // vue router 4 syntax
+    `import VueRouter from 'https://unpkg.com/vue-router@4.0.5/dist/vue-router.global.js'
+  ${importRoutes}
+    const routes = ${routes};
+
+    const router = VueRouter.createRouter({
+      // ask if user wants to "Use history mode for router? (Requires proper server setup for index fallback in production)"
+      // https://next.router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
+
+      // history: createWebHistory(),
+      routes
+    });
+
+    export default router;
+    `
+  )
+}
+
+export const vue2RouterTemplate = (options: CreateInputs) => {
+  let routes = '[';
+  let importRoutes = '';
+  for (let i = 0; i < options.components.length; i++) {
+    // import statements
+    importRoutes += `import ${options.components[i]} from '../components/${options.components[i]}.vue';\n`;
+    let routeObj = `{
+      path: '/${options.components[i].toLowerCase()}',
+      name: '${options.components[i]}',
+      component: ${options.components[i]}
+    },`
+    routes += routeObj;
+  }
+  routes += ']';
+
+  return (
+    `import VueRouter from 'https://unpkg.com/vue-router@3.5.2/dist/vue-router.js';
+  ${importRoutes}
+
+    const routes = ${routes};
+
+    const router = new VueRouter({
+      routes
+    });
+
+    export default router;
+    `
+  )
+}

@@ -1,6 +1,6 @@
 import { Config } from "../dts/factory.d.ts";
 import { fs, path } from "../utils/deps.ts";
-import { checkVueVersion } from "../utils/type_gaurds.ts";
+import { checkVueVersion } from "../utils/type_guards.ts";
 
 export async function configReader(): Promise<Config> {
   //iterates through cwd,  assigning "vno.config" (if found while parsing)  to variable configFile

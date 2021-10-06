@@ -13,7 +13,7 @@ export const runDevServer = async function (port: number, hostname: string) {
   const wss = new WebSocketServer(8080);
   wss.on("connection", function (ws: WebSocketClient) {
     ws.send('[LiveReload is watching...');
-    // create event listeneer that listens for "buildDone" event
+    // create event listener that listens for "buildDone" event
     const reloadWindow = () => {
       console.log("[back to you Client!]");
       ws.send('reload window');
@@ -28,6 +28,7 @@ export const runDevServer = async function (port: number, hostname: string) {
   });
 
 
+  //server route handler
   server.use(async (ctx, next) => {
     const { pathname } = ctx.request.url;
 
@@ -59,7 +60,7 @@ export const runDevServer = async function (port: number, hostname: string) {
   server.addEventListener("listen", () => {
     print.LISTEN(port, hostname);
     if (running === false) {
-      watchAndRebuild({ ssr: false });
+      watchAndRebuild({ ssr: false }); 
       running = true;
     }
   });

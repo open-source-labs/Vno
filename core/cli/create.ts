@@ -8,7 +8,9 @@ interface CreateProjectObj {
   custom?: boolean;
   root?: string;
   port?: string;
+  vue?: string;
   components?: string[];
+  router?: string;
   //ssr?: boolean;
 }
 
@@ -36,15 +38,20 @@ export const createSinglePageApp = async function (
   const root: string = template.rootComponent(app);
   const rootFile = `${app.root}.vue`;
   const component: string = template.childComponent(app.components[0]);
-  const componentFiles = app.components.map(
+  const componentFiles = app.components.map( // creates vue components for each based on passed in strings
     ((sfc: string) => `components/${sfc}.vue`),
   );
   const generic: string = template.genericComponent();
   const html: string = template.htmlTemplate(app);
   const config: string = template.vnoConfig(app);
+  // router template
+  const vue3Router: string = template.vue3RouterTemplate(app);
+  const vue2Router: string = template.vue2RouterTemplate(app);
+  const rootWithRouter: string = template.rootComponentWithRouter(app);
+  // console.log(out);
 
   // Creates Folders
-  // write to app directory
+  // write to app directory 
   await fs.ensureDir(out.pub); // public dir
   await fs.ensureDir(out.components); // components dir
   //ensureDir/ensureFile are methods that check for a file. if It does not exist, it creates a file.
@@ -54,7 +61,23 @@ export const createSinglePageApp = async function (
   await fs.ensureFile(out.vnoconfig);
   await Deno.writeTextFile(out.vnoconfig, config);
   await fs.ensureFile(rootFile);
-  await Deno.writeTextFile(rootFile, root);
+  
+  // router
+  const routerChoice = app.router.trim()[0].toLowerCase(); // yes = > y
+  if (routerChoice === 'y') {
+    await fs.ensureDir(out.router); // router dir
+    await fs.ensureFile(out.routerJs); // router/index.js
+    // write root file with router 
+    await Deno.writeTextFile(rootFile, rootWithRouter);
+    if (app.vue === 3){
+      await Deno.writeTextFile(out.routerJs, vue3Router); // writes router template to index.js
+    } 
+    else if (app.vue === 2) {
+      await Deno.writeTextFile(out.routerJs, vue2Router);
+    }
+  } else {
+    await Deno.writeTextFile(rootFile, root);
+  }
 
   componentFiles.forEach(async (filename: string, i: number) => {
     await fs.ensureFile(filename);
@@ -67,7 +90,7 @@ export const createSinglePageApp = async function (
 
 export const customize = async function (obj: CreateProjectObj) {
   //all of these needs to be true, if one is undefined preset is undefined - short circuiting
-  const preset = obj.title && obj.port && obj.root && obj.components; //&& obj.ssr
+  const preset = obj.title && obj.port && obj.root && obj.components && obj.router; //&& obj.ssr
 
   //out is all the constants being exported from the constants file -
   //out.options is referencing the interface that has a title, root, port, components
@@ -83,6 +106,29 @@ export const customize = async function (obj: CreateProjectObj) {
   //displays init message in green
   fn.green(out.init);
   const reqs = out.reqs.slice();
+
+  // Vue Router
+  let router;
+  if (obj.router) {
+    //if the router exists, remove string "\nVue Router:" from req array
+    reqs.pop();
+    router = obj.router;
+  } else {
+    router = await prompt(reqs.pop() as string, "yes/no") as string;
+  }
+
+
+  // vue version
+  let vue;
+  if (obj.vue) {
+    //if the version exists, remove string "\nVersion number for Vue:" from req array
+    reqs.pop();
+    vue = obj.vue;
+  } else {
+    vue = await prompt(reqs.pop() as string, "3") as string;
+  }
+  vue = parseInt(vue, 10);
+
 
   // project title
   let title;
@@ -129,7 +175,7 @@ export const customize = async function (obj: CreateProjectObj) {
 
   // request to confirm input
   fn.green(
-    fn.confirmation(title, root, components.join(" + "), port.toString()),
+    fn.confirmation(title, root, components.join(" + "), port.toString(), vue.toString(), router),
   );
 
   let confirm;
@@ -138,20 +184,24 @@ export const customize = async function (obj: CreateProjectObj) {
   }
 
   if (preset || confirm?.trim()[0].toLowerCase() === "y") {
-    output = { title, root, components, port };
+    // checks for router option (yes or no)
+    // if (router?.trim()[0].toLowerCase() !== "y") {
+      output = { title, root, components, port, vue, router };
+    // } else {
+    //   output = { title, root, components, port, vue };
+    // }
     fn.green(out.creating);
   } else { // reset on rejection
     fn.yellow(out.reset);
     await customize(obj);
   }
-
+  console.log(output);
   return output;
 };
 
 export const renderProgress = function (): void {
   const total = 100;
   let percent = 0;
-
   const progressBar = new ProgressBar({
     total,
     clear: true,

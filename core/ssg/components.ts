@@ -69,7 +69,7 @@ export const addComponentDeps = (cmp: Component, cmps: Mapped<Component>) => {
 };
 
 /**
- * Add depency info to all components.
+ * Add dependency info to all components.
  */
 const addComponentsDeps = (cmps: Mapped<Component>) => {
   for (const cmp of Object.values(cmps)) {
