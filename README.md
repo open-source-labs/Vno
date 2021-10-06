@@ -24,29 +24,35 @@
 
 ## Overview
 
-- Vue is an approachable javascript framework with an exciting ecosystem with
-  remarkable versatility. Deno is a runtime environment intent on improving the
-  shortcomings of node.js. We wanted to be able to leverage the Vue framework in
-  a Deno runtime environment, and vno makes that possible.
+- Vue is an approachable, incrementally adoptable JavaScript framework with an exciting ecosystem. Deno is a new runtime environment for JavaScript, built to address the shortcomings of node.js. We wanted to create a tool that let developers easily set up Vue applications in a Deno runtime environment. Meet vno!
 
 ## How to use vno
 
-- You can use the vno Command Line Interface to quickly create a new Vue project
-  in a Deno runtime
+- You can use the vno Command Line Interface to quickly create a new Vue project in a Deno runtime
 - OR you can use the vno build method to compile an existing Vue file structure
   into a Deno-legible .js file
 
 ### vno installation
 
 - vno requires the use of Deno version 1.10 or above
-- run the following command in your terminal to install vno on your machine.
+- MacOS: 
+  - Run the following command in your terminal to install vno on your machine.
 
 ```bash
 deno install --allow-net --unstable https://deno.land/x/vno/install/vno.ts
 ```
 
+- WSL/Linux: 
+  - Open `/home/<USERNAME>/bashrc` with your editor of choice.
+  - Add `export PATH="/home/<USERNAME>/.deno/bin:$PATH` to the end of the file.
+  - Run the following command in your terminal to install vno on your machine.
+
+```bash
+sudo deno install --allow-net --unstable https://deno.land/x/vno/install/vno.ts
+```
+
 - Deno requires the `--allow-net` permission to run an installation
-- This feature, and many of the others used in vno are still considered
+- This feature and many of the others used in vno are still considered
   "unstable" for Deno. Run the command with `--unstable` to allow these
   resources to execute.
 - The force flag `-f` can be used if you want to overwrite an existing copy of
@@ -55,22 +61,23 @@ deno install --allow-net --unstable https://deno.land/x/vno/install/vno.ts
   'vno' is the default name.
 - If you have not already added Deno bin into your path, you will need to do so.
 
-  - Copy the export path your terminal returns and paste it into your terminal
-
+  - MacOS: Copy the export path your terminal returns and paste it into your terminal
+  - WSL/Linux: Replace `root` with your username and paste it into your terminal: 
+      `export PATH="/home/<USERNAME>/.deno/bin:$PATH"`
   ![install gif](https://media.giphy.com/media/LVokebNuReGJuwU13R/giphy.gif)
 
 ### a quick word about permissions
 
-- Deno is secure by default, this means that explicit permissions are required
+- Deno is secure by default, which means that explicit permissions are required
   for certain tasks.
 - You can avoid responding to the permissions requests by flagging the
   installation script.
-- Most of our module requires both read and write permissions `--allow-read` &
+- Most of our modules require both read and write permissions `--allow-read` &
   `--allow-write`
 - If you decide not to flag permissions at installation, you will be prompted in
   the terminal after executing a command.
-- **note: If you would like to avoid writing out the permissions altogether, you
-  can also use the `-A` or `--allow-all` tag**
+- If you would like to avoid writing out the permissions altogether, you
+  can also use the `-A` or `--allow-all` tag
 
 ### vno config
 
@@ -101,9 +108,9 @@ interface Config {
 ### create a new project
 
 - Project name will become the directory that holds your project (you must CD
-  into project directory after running create command).
-- If project name argument is omitted, then project will be created in current
-  working directory.
+  into project directory after running the `vno create` command).
+- If the project name argument is omitted, then the project will be created in the current working directory.
+- Using `vno create` will give an option to build out a universal or single page application. Choosing 'SPA' will give you the option of choosing to add Vue Router, as well as choosing between Vue 2 or Vue 3 syntax.
 
 ```bash
 vno create [project name]
@@ -120,7 +127,7 @@ deno run --allow-read --allow-write --allow-net --unstable https://deno.land/x/v
 ### run a build on a project
 
 - To invoke the build method and dynamically create bundled js and css files for
-  your application type the following into the terminal:
+  your application, type the following into the terminal:
 
 ```bash
 vno build
@@ -134,11 +141,11 @@ deno run --allow-read --allow-write --allow-net --unstable https://deno.land/x/v
 
 ![vno build](https://i.ibb.co/jgRFXvc/vno-build.gif)
 
-**It is important to know that as of now, scoped styling is not supported**
+**Scoped styling for CSS is currently not supported, but will be added to future builds**
 
 ### run a build on a project AND create a server configured for SSR
 
-- To invoke the build method and dynamically create bundled js, css files, and a server.ts for server side rendering your application, type the following into the terminal:
+- To invoke the build method and dynamically create bundled JS and CSS files, along with a server.ts for server side rendering your application, type the following into the terminal:
 
 ```bash
 vno build --ssr
@@ -154,10 +161,9 @@ deno run --allow-read --allow-write --allow-net --unstable https://deno.land/x/v
 ### run dev server includes live reload
 
 - Running the dev server dynamically runs a new build and runs the application
-  on a module hosted server
-- Native `vno run dev` command automatically enables live reload
-    - Live reload injects a WebSocket connection to build.js. Remove it with: `vno run build`
-- Invoke the dev server like so:
+  on a module hosted server.
+- Native `vno run dev` command automatically enables live reload. Using Live Reload injects a WebSocket connection to build.js. Remove it with: `vno run build`
+- Invoke the dev server using the following commands:
 
 ```bash
 vno run dev
@@ -188,8 +194,8 @@ const vno = new Factory();
 await vno.build();
 ```
 
-without a vno.config.json, you can input the object directly into the Factory
-instance
+- Without a vno.config.json, you can input the object directly into the Factory
+  instance
 
 ```ts
 import { Factory } from 'https://deno.land/x/vno/dist/mod.ts';
@@ -207,7 +213,7 @@ await vno.build();
 ```
 
 `vno.build()` will run a build on the entire application and compile it to a
-"vno-build" directory as one javascript file and one css file.
+"vno-build" directory as one JavaScript file and one CSS file.
 
 ### accessing component object storage
 
@@ -218,4 +224,4 @@ await vno.build();
 vno.storage.get('App');
 ```
 
-the argument accepted by the get method for storage is the component filename
+The argument accepted by the get method for storage is the component filename
