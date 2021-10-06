@@ -53,7 +53,7 @@ Deno.test({  //TESTS CREATE COMMANDS
     assertEquals(res.options.title, args[1]); //tests if res.options.title is equal to args[1] === cli-test
 
     yellow("\n>> vue version in vno.config");
-    assertEquals(res.vue, Number(args[3])); // test if res.options.vue is equal to args[3] === 3
+    assertEquals(res.vue, Number(args[3])); // test if res.vue is equal to args[3] === 3
 
     yellow("\n>> 1/3 child components created");
     assertEquals(
