@@ -1,9 +1,0 @@
-{
-  "root": "App",
-  "entry": "./",
-  "vue": 3,
-  "options": {
-    "port": 3000,
-    "title": "newproject"
-  }
-}
