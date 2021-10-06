@@ -33,6 +33,8 @@ export const create = async function (args: string[]): Promise<void> {
   //pops off each arg of the array to give title, root, port, components
   const mutable = args.slice(1);
   const title = mutable.shift(); // sets variables based on user input being passed in CLI
+  const router = mutable.shift();
+  const vue = mutable.shift();
   const root = mutable.shift();
   const port = mutable.shift();
 
@@ -53,6 +55,8 @@ export const create = async function (args: string[]): Promise<void> {
     //arguments passed into CLI placed into createSinglePageApp as obj
     await createSinglePageApp({ //
       title,
+      router,
+      vue,
       root,
       port,
       components,

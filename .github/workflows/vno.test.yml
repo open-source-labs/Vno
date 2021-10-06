@@ -12,13 +12,13 @@ jobs:
 
     strategy:
       matrix:
-        deno-version: ['v1.x']
+        deno-version: ['v1.11.2']
 
     steps:
       - name: Git Checkout Deno Mod
         uses: actions/checkout@v2
       - name: Use Deno Version ${{ matrix.deno-version }}
-        uses: denoland/setup-deno@v1
+        uses: denolib/setup-deno@v2.3.0
         with:
           deno-version: ${{ matrix.deno-version }}
       - name: Build Vno Mod
@@ -33,6 +33,6 @@ jobs:
           deno test --allow-read --allow-write --allow-net --unstable core/__tests__/test_http.ts
       - name: Test vno commands
         run: |
-          deno run --allow-read --allow-write --allow-net --unstable install/vno.ts create --spa cli-test TestApp 8080 TestOne TestTwo TestThree
+          deno run --allow-read --allow-write --allow-net --unstable install/vno.ts create --spa cli-test yes 3 TestApp 8080 TestOne TestTwo TestThree
           deno run --allow-read --allow-write --allow-net --unstable install/vno.ts build cli-test
           deno test --allow-read --allow-write --allow-net --unstable core/__tests__/test_commands.ts

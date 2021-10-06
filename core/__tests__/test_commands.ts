@@ -7,6 +7,8 @@ Deno.test({  //TESTS CREATE COMMANDS
     const args = [ //array of tests 
       "create",
       "cli-test",
+      "yes",
+      "3",
       "TestApp",
       "8080",
       "TestOne",
@@ -36,10 +38,10 @@ Deno.test({  //TESTS CREATE COMMANDS
     const res = JSON.parse(json);
 
     yellow("\n>> project root labeled in vno.config");
-    assertEquals(res.root, args[2]); //tests after create; looks at res(obj).root and compares with args[2]===TestApp
+    assertEquals(res.root, args[4]); //tests after create; looks at res(obj).root and compares with args[2]===TestApp
 
     yellow("\n>> server port labeled in vno.config");
-    assertEquals(res.options.port, Number(args[3])); //tests if res.options.port is equal to args[3] === 8080
+    assertEquals(res.options.port, Number(args[5])); //tests if res.options.port is equal to args[3] === 8080
 
     yellow("\n>> project title in vno.config");
     assertEquals(res.options.title, args[1]); //tests if res.options.title is equal to args[1] === cli-test
