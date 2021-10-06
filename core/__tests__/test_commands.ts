@@ -34,6 +34,12 @@ Deno.test({  //TESTS CREATE COMMANDS
       true, //EXPECTED BOOLEAN VALUE
     );
 
+    yellow("\n>> router file (cli-test/router/index.js) was created");//prints to terminal in yellow
+    assertEquals(//tests if create command creates vno.config.json file
+      fs.existsSync("./cli-test/router/index.js"),
+      true, //EXPECTED BOOLEAN VALUE
+    );
+
     const json = Deno.readTextFileSync("./cli-test/vno.config.json");//prints to terminal in yellow
     const res = JSON.parse(json);
 
@@ -45,6 +51,9 @@ Deno.test({  //TESTS CREATE COMMANDS
 
     yellow("\n>> project title in vno.config");
     assertEquals(res.options.title, args[1]); //tests if res.options.title is equal to args[1] === cli-test
+
+    yellow("\n>> vue version in vno.config");
+    assertEquals(res.vue, Number(args[3])); // test if res.options.vue is equal to args[3] === 3
 
     yellow("\n>> 1/3 child components created");
     assertEquals(
