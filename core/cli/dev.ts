@@ -6,8 +6,12 @@ import { event } from "../utils/events.ts";
 
 export const server: Application = new Application();
 
-export const runDevServer = async function (port: number, hostname: string) {
-  const wss = new WebSocketServer(8080);
+export const runDevServer = async function (
+  port: number,
+  hostname: string,
+  reloadport: number,
+) {
+  const wss = new WebSocketServer(reloadport);
   wss.on("connection", function (ws: WebSocketClient) {
     ws.send("[LiveReload is watching...");
     // create event listener that listens for "buildDone" event
