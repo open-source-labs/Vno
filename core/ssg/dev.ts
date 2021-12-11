@@ -1,10 +1,10 @@
 import {
   WebSocketClient,
   WebSocketServer,
-} from "https://deno.land/x/websocket@v0.1.2/mod.ts";
-import { Application, send } from "https://deno.land/x/oak@v7.7.0/mod.ts";
-import { EventEmitter } from "https://deno.land/std@0.100.0/node/events.ts";
-import * as path from "https://deno.land/std@0.99.0/path/mod.ts";
+} from "https://deno.land/x/websocket@v0.1.3/mod.ts";
+import { Application, send } from "https://deno.land/x/oak@v10.0.0/mod.ts";
+import { EventEmitter } from "https://deno.land/std@0.117.0/node/events.ts";
+import * as path from "https://deno.land/std@0.117.0/path/mod.ts";
 import { debounce } from "./utils.ts";
 import { generate } from "./generate.ts";
 

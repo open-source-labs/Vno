@@ -87,7 +87,6 @@ export interface Config {
      * preferred host
      * default: "0.0.0.0"
      */
-
   };
 }
 export declare namespace Vue {
