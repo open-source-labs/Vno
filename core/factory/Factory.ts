@@ -20,6 +20,7 @@ export default class Factory {
   public variable: string;
   private _config: Config;
   private _port!: number;
+  private _reloadport!: number;
   private _title!: string;
   private _hostname!: string;
   private _server!: string;
@@ -61,9 +62,13 @@ export default class Factory {
     //line below returns a "vno.config" config file to this._config, throws err if no config file is found
     if (!checkOptions(this.config)) { //check if config obj is not null, & config.entry & config.root equal "string"
       this._config = await configReader() as Config;
-    } // "config.options?.port" is an example of optional chaining with the safe navigation operator ".?"
+    }
+    // "config.options?.port" is an example of optional chaining with the safe navigation operator ".?"
     if (this.config.options?.port) {
       this._port = this.config.options.port;
+    }
+    if (this.config.options?.reloadPort) {
+      this._reloadport = this.config.options.reloadPort;
     }
     if (this.config.options?.hostname) {
       this._hostname = this.config.options.hostname;
@@ -76,6 +81,9 @@ export default class Factory {
     // // added router to config - 9/21/21
     if (this.config.router) {
       this._router = this.config.router;
+    }
+    if (this.storage) {
+      this.storage.config = this._config;
     }
   }
   /**
@@ -128,7 +136,7 @@ export default class Factory {
     const decoder = new TextDecoder("utf-8");
 
     const styles = decoder.decode(
-      Deno.readFileSync(Deno.cwd()+"/vno-build/style.css"),
+      Deno.readFileSync(Deno.cwd() + "/vno-build/style.css"),
     );
 
     Deno.writeTextFileSync(
@@ -170,6 +178,11 @@ export default class Factory {
     return 3000;
   }
 
+  get reloadPort() {
+    if (this._reloadport) return this._reloadport;
+    return 8080;
+  }
+
   get hostname() {
     if (this._hostname) return this._hostname;
     return "0.0.0.0";
@@ -188,6 +201,6 @@ export default class Factory {
   // added router 9/21/21
   get router() {
     if (this._router) return this._router;
-    return "^4.0.0-0"
+    return "^4.0.0-0";
   }
 }
