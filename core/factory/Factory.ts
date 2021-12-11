@@ -128,7 +128,7 @@ export default class Factory {
     const decoder = new TextDecoder("utf-8");
 
     const styles = decoder.decode(
-      Deno.readFileSync(Deno.cwd()+"/vno-build/style.css"),
+      Deno.readFileSync(Deno.cwd() + "/vno-build/style.css"),
     );
 
     Deno.writeTextFileSync(
@@ -188,6 +188,6 @@ export default class Factory {
   // added router 9/21/21
   get router() {
     if (this._router) return this._router;
-    return "^4.0.0-0"
+    return "^4.0.0-0";
   }
 }
