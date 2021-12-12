@@ -1,10 +1,10 @@
-import { assertEquals, fs } from "../utils/deps.ts";
+import { assertEquals, fs } from "./test_deps.ts";
 import { yellow } from "../cli/fns.ts";
 
-Deno.test({  //TESTS CREATE COMMANDS
+Deno.test({ //TESTS CREATE COMMANDS
   name: "\n\ntesting success of create command\n",
   fn(): void {
-    const args = [ //array of tests 
+    const args = [ //array of tests
       "create",
       "cli-test",
       "yes",
@@ -17,30 +17,30 @@ Deno.test({  //TESTS CREATE COMMANDS
     ];
 
     yellow("\n>> project directory was created"); //prints to terminal in yellow
-    assertEquals( //tests if create command creates a new proj called cli-test as directory 
+    assertEquals( //tests if create command creates a new proj called cli-test as directory
       fs.existsSync("./cli-test"), //used to synchronously check if file already exists in given path; RETURNS BOOLEAN
       true, //EXPECTED BOOLEAN VALUE
     );
 
-    yellow("\n>> root component file was created");//prints to terminal in yellow
-    assertEquals(//tests if create command creates a new proj called cli-test as directory and TestApp.vue as root file
+    yellow("\n>> root component file was created"); //prints to terminal in yellow
+    assertEquals( //tests if create command creates a new proj called cli-test as directory and TestApp.vue as root file
       fs.existsSync("./cli-test/TestApp.vue"),
       true, //EXPECTED BOOLEAN VALUE
     );
 
-    yellow("\n>> config file was created");//prints to terminal in yellow
-    assertEquals(//tests if create command creates vno.config.json file
+    yellow("\n>> config file was created"); //prints to terminal in yellow
+    assertEquals( //tests if create command creates vno.config.json file
       fs.existsSync("./cli-test/vno.config.json"),
       true, //EXPECTED BOOLEAN VALUE
     );
 
-    yellow("\n>> router file (cli-test/router/index.js) was created");//prints to terminal in yellow
-    assertEquals(//tests if create command creates vno.config.json file
+    yellow("\n>> router file (cli-test/router/index.js) was created"); //prints to terminal in yellow
+    assertEquals( //tests if create command creates vno.config.json file
       fs.existsSync("./cli-test/router/index.js"),
       true, //EXPECTED BOOLEAN VALUE
     );
 
-    const json = Deno.readTextFileSync("./cli-test/vno.config.json");//prints to terminal in yellow
+    const json = Deno.readTextFileSync("./cli-test/vno.config.json"); //prints to terminal in yellow
     const res = JSON.parse(json);
 
     yellow("\n>> project root labeled in vno.config");
@@ -92,7 +92,7 @@ Deno.test({ //TESTS IF BUILD COMMANDS WORKED
 
     yellow("\n>> style.css file compiled");
     assertEquals(
-      fs.existsSync("./cli-test/vno-build/style.css"),  // will compile all css into single style.css file
+      fs.existsSync("./cli-test/vno-build/style.css"), // will compile all css into single style.css file
       true, //EXPECTED BOOLEAN VALUE
     );
   },

@@ -1,7 +1,7 @@
 import type { Component, Config, Vue } from "../dts/factory.d.ts";
 import { configReader } from "../lib/config_reader.ts";
 import { vueLogger } from "../lib/vue_logger.ts";
-import { assertEquals, assertNotEquals, path } from "../utils/deps.ts";
+import { assertEquals, assertNotEquals, path } from "./test_deps.ts";
 
 // configReader tests:
 // Tests if the configReader can read vno.config.json properly
@@ -22,7 +22,7 @@ Deno.test({
     );
 
     const config: Config | unknown = await configReader(); //checks if Config or Unknown; if unknown invoke configReader()
-    assertNotEquals((config as Config), undefined); // checks if config is undefined
+    assertNotEquals(config as Config, undefined); // checks if config is undefined
     assertEquals((config as Config).vue, 3); //tests config as Config with stringify keys on LINE 15-19 and checks value
     assertEquals((config as Config).entry, "../../example/test_demo/"); // checks entry
     assertEquals((config as Config).root, "App"); // checks root is equal to "App"
@@ -39,7 +39,6 @@ Deno.test({
 // vueLogger tests:
 const component = <Component> { label: "TestRoot", name: "test-root" };
 
-
 Deno.test({ //test checks if vueLogger returns object with valid props
   name: "vueLogger returns object with valid props for Vue2",
 
@@ -50,7 +49,7 @@ Deno.test({ //test checks if vueLogger returns object with valid props
       "label",
     );
 
-    assertNotEquals((V2 as Vue.State), undefined);
+    assertNotEquals(V2 as Vue.State, undefined);
 
     const dep = "import Vue from ";
     assertEquals((V2 as Vue.State).dep, dep); // checks to see if dep matches
@@ -70,7 +69,7 @@ Deno.test({ //test checks if vueLogger returns object with valid props for VUE3
       "label",
     );
 
-    assertNotEquals((V3 as Vue.State), undefined);
+    assertNotEquals(V3 as Vue.State, undefined);
 
     const dep = "import * as Vue from "; // checks to see if dep matches
     assertEquals((V3 as Vue.State).dep, dep);
