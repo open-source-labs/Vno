@@ -60,9 +60,7 @@ export const rootComponent = (options: CreateInputs) => {
     <img
       src="https://user-images.githubusercontent.com/63819200/128429048-5927eb19-b151-4855-93e3-2e0755c447a2.png"
       alt="image"
-      border="0"
-      width="450"
-      height="auto"
+      id="vno-image"
     />
 
     <${
@@ -95,21 +93,24 @@ html {
   color: #79d0b2;
   margin-top: 60px;
 }
+#vno-image {  width: 50%;  height: auto; border: 0;} 
 </style>`
   );
 };
 
 export const rootComponentWithRouter = (options: CreateInputs) => {
-    let div = `<div id="nav">`;
-    let routes = '';
-    for (let i = 0; i < options.components.length; i++) {
-      const routeObj = `
-     <router-link to="/${options.components[i].toLowerCase()}">${options.components[i]}</router-link> \n`
-      routes += routeObj;
-    }
-    div += routes;
+  let div = `<div id="nav">`;
+  let routes = "";
+  for (let i = 0; i < options.components.length; i++) {
+    const routeObj = `
+     <router-link to="/${options.components[i].toLowerCase()}">${
+      options.components[i]
+    }</router-link> \n`;
+    routes += routeObj;
+  }
+  div += routes;
 
-    div += `</div>
+  div += `</div>
     <router-view></router-view>`;
 
   return (
@@ -118,9 +119,7 @@ export const rootComponentWithRouter = (options: CreateInputs) => {
     <img
       src="https://user-images.githubusercontent.com/63819200/128429048-5927eb19-b151-4855-93e3-2e0755c447a2.png"
       alt="image"
-      border="0"
-      width="450"
-      height="auto"
+      id="vno-image"
     />
     ${div}
 
@@ -155,6 +154,7 @@ html {
   color: #79d0b2;
   margin-top: 60px;
 }
+#vno-image {  width: 50%;  height: auto; border: 0;} 
 </style>`
   );
 };
@@ -177,7 +177,6 @@ export const genericComponent = () => {
 };
 
 export const htmlTemplate = (options: CreateInputs) => {
-
   return (
     `<!DOCTYPE html>
 <html lang="en">
@@ -252,28 +251,29 @@ console.log(\`Vue SSR App listening on port \${port}\`);
 ` as string;
 
 // template for router/index.js
-// also need to add router to 
+// also need to add router to
 export const vue3RouterTemplate = (options: CreateInputs) => {
-  
-  let routes = '[';
-  let importRoutes = '';
+  let routes = "[";
+  let importRoutes = "";
   for (let i = 0; i < options.components.length; i++) {
     // import statements
-    importRoutes += `import ${options.components[i]} from '../components/${options.components[i]}.vue';\n`;
+    importRoutes += `import ${options.components[i]} from '../components/${
+      options.components[i]
+    }.vue';\n`;
     const routeObj = `{
       path: '/${options.components[i].toLowerCase()}',
       name: '${options.components[i]}',
       component: ${options.components[i]}
       // uncomment below to use lazy loading - also, remove import statement for this component at top of file.
       // component: () => import('../components/${options.components[i]}.vue')
-    },`
+    },`;
     routes += routeObj;
   }
-  routes += ']';
+  routes += "]";
 
   // vue router 4 -> vue 3
   // vue router 3 -> vue 2
-  return(
+  return (
     // vue router 4 syntax
     `import VueRouter from 'https://unpkg.com/vue-router@4.0.5/dist/vue-router.global.js'
   ${importRoutes}
@@ -289,23 +289,25 @@ export const vue3RouterTemplate = (options: CreateInputs) => {
 
     export default router;
     `
-  )
-}
+  );
+};
 
 export const vue2RouterTemplate = (options: CreateInputs) => {
-  let routes = '[';
-  let importRoutes = '';
+  let routes = "[";
+  let importRoutes = "";
   for (let i = 0; i < options.components.length; i++) {
     // import statements
-    importRoutes += `import ${options.components[i]} from '../components/${options.components[i]}.vue';\n`;
+    importRoutes += `import ${options.components[i]} from '../components/${
+      options.components[i]
+    }.vue';\n`;
     let routeObj = `{
       path: '/${options.components[i].toLowerCase()}',
       name: '${options.components[i]}',
       component: ${options.components[i]}
-    },`
+    },`;
     routes += routeObj;
   }
-  routes += ']';
+  routes += "]";
 
   return (
     `import VueRouter from 'https://unpkg.com/vue-router@3.5.2/dist/vue-router.js';
@@ -319,5 +321,5 @@ export const vue2RouterTemplate = (options: CreateInputs) => {
 
     export default router;
     `
-  )
-}
+  );
+};
