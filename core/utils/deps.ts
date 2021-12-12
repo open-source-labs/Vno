@@ -4,10 +4,6 @@ export * as path from "https://deno.land/std@0.117.0/path/mod.ts";
 export * as colors from "https://deno.land/std@0.117.0/fmt/colors.ts";
 export * as http from "https://deno.land/std@0.117.0/http/mod.ts";
 export { v4 } from "https://deno.land/std@0.117.0/uuid/mod.ts"; //uuid generator
-export {
-  assertEquals,
-  assertNotEquals,
-} from "https://deno.land/std@0.117.0/testing/asserts.ts"; // testing library
 import {
   WebSocketClient,
   WebSocketServer,
