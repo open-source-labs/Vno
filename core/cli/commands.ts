@@ -40,13 +40,13 @@ export const create = async function (args: string[]): Promise<void> {
 
   const components = mutable.length > 0 ? mutable : undefined;
   if (title) {
-    const dir = `${Deno.cwd()}/${title}`; 
+    const dir = `${Deno.cwd()}/${title}`;
     await fs.ensureDir(dir); // checks if dir exists, if not creates it
     Deno.chdir(dir); // changes current directory to dir
   }
 
   if (appType === "universal") {
-    fn.green(out.creating);//turns all exports from constants to green in cli
+    fn.green(out.creating); //turns all exports from constants to green in cli
 
     renderProgress(); // displays progress bar
 
@@ -81,7 +81,7 @@ export const build = async function (args: string[]): Promise<void> {
       : fn.green(`[${serverTs} file located]`);
     fn.yellow(`=> ${Deno.cwd()}`);
 
-    //configPath is cwd/filename (with extention because ts)
+    //configPath is cwd/filename (with extension because ts)
     const configPath = `${Deno.cwd()}/${vnoconfig}`;
     // Deno.readTextFile returns entire contents of configFile as a string
     const json = await Deno.readTextFile(configPath);
@@ -90,7 +90,6 @@ export const build = async function (args: string[]): Promise<void> {
     res.server = `${Deno.cwd()}/${serverTs}`;
     await Deno.writeTextFile(configPath, JSON.stringify(res));
   }
-
 
   //if args index 2 is not --ssr
   const path = !cmnd.buildSsr.test(args[1]) ? args[1] : undefined;
@@ -118,12 +117,12 @@ export const run = async function (args: string[]): Promise<void> {
 
   if (quietArg(args[2]) || quietArg(args[3])) print.QUIET(); // no logo
   else print.ASCII(); // prints ASCII logo
-  const { port, hostname } = vno;
+  const { port, hostname, reloadPort } = vno;
 
   if (cmnd.dev.test(args[1])) {
     //for live reload
     await vno.build(true);
-    await runDevServer(port, hostname);
+    await runDevServer(port, hostname, reloadPort);
 
     Deno.exit(0);
   } else if (cmnd.server.test(args[1])) {
@@ -147,9 +146,9 @@ export const flags = function (args: string[]): void {
 
   print.ASCII();
   print.INFO(info);
-  
+
   // if help flag is entered, print CMDS and OPTIONS to CLI
-  if (helpArg) { 
+  if (helpArg) {
     print.CMDS(info);
     print.OPTIONS(info);
   } else console.log("\n");

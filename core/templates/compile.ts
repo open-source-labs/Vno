@@ -1,5 +1,4 @@
-import * as path from "https://deno.land/std@0.99.0/path/mod.ts";
-import * as fs from "https://deno.land/std@0.83.0/fs/mod.ts";
+import { fs, path } from "../utils/deps.ts";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 

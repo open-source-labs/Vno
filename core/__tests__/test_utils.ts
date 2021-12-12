@@ -1,4 +1,4 @@
-import { assertEquals } from "../utils/deps.ts";
+import { assertEquals } from "./test_deps.ts";
 import { patterns } from "../utils/constants.ts";
 import { indexOfRegExp, sliceAndTrim } from "../utils/utils.ts";
 

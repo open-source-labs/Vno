@@ -2,7 +2,7 @@ import * as parse from "../lib/parser.ts";
 import Component from "../factory/Component.ts";
 import Storage from "../factory/Storage.ts";
 import Queue from "../factory/Queue.ts";
-import { assertEquals, assertNotEquals, path } from "../utils/deps.ts";
+import { assertEquals, assertNotEquals, path } from "./test_deps.ts";
 import { patterns } from "../utils/constants.ts";
 import { yellow } from "../cli/fns.ts";
 
@@ -54,9 +54,9 @@ Deno.test({ //tests to check if script was properly added
     assertEquals(typeof testRoot.script, "string"); //tests to check if value is 'string'
 
     yellow(">> parse.script removes comments\n");
-    assertEquals( 
+    assertEquals(
       testRoot.script?.match("// this is a javascript comment\n"), // checks if parser removes comment
-      null,//EXPECTS NULL
+      null, //EXPECTS NULL
     );
 
     yellow(">> parse.script does not remove URLs\n");
@@ -68,7 +68,7 @@ Deno.test({ //tests to check if script was properly added
     yellow(">> testRoot has a child reference to its dependant\n");
     assertEquals(
       testRoot.dependants?.head,
-      testChild, 
+      testChild,
     );
   },
 });

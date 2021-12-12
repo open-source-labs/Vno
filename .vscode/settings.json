@@ -1,13 +1,19 @@
 //vscode import settings for default formatter (typescript && js)
-
+// using official denoland extension
 {
   "deno.enable": true,
   "deno.lint": true,
-  "deno.unstable": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
+  "deno.unstable": false,
+  "deno.codeLens.test": true, // default : `true`
+  "deno.codeLens.testArgs": ["--allow-all", "--unstable"], // default : `[ "--allow-all" ]`
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true
   }
 }
