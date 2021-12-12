@@ -1,22 +1,23 @@
 import { Application, path, send } from "../utils/deps.ts";
 import { WebSocketClient, WebSocketServer } from "../utils/deps.ts";
 import * as print from "./stdout.ts";
-import { exec } from "../utils/deps.ts";
 import { watchAndRebuild } from "./liveRebuild.ts";
-import { event } from "../utils/events.ts"
-
-
+import { event } from "../utils/events.ts";
 
 export const server: Application = new Application();
 
-export const runDevServer = async function (port: number, hostname: string) {
-  const wss = new WebSocketServer(8080);
+export const runDevServer = async function (
+  port: number,
+  hostname: string,
+  reloadport: number,
+) {
+  const wss = new WebSocketServer(reloadport);
   wss.on("connection", function (ws: WebSocketClient) {
-    ws.send('[LiveReload is watching...');
+    ws.send("[LiveReload is watching...");
     // create event listener that listens for "buildDone" event
     const reloadWindow = () => {
       console.log("[back to you Client!]");
-      ws.send('reload window');
+      ws.send("reload window");
       event.removeListener("buildDone", reloadWindow);
     };
 
@@ -26,7 +27,6 @@ export const runDevServer = async function (port: number, hostname: string) {
       console.log(message);
     });
   });
-
 
   //server route handler
   server.use(async (ctx, next) => {
@@ -60,7 +60,7 @@ export const runDevServer = async function (port: number, hostname: string) {
   server.addEventListener("listen", () => {
     print.LISTEN(port, hostname);
     if (running === false) {
-      watchAndRebuild({ ssr: false }); 
+      watchAndRebuild({ ssr: false });
       running = true;
     }
   });
