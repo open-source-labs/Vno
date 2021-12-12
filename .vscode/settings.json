@@ -4,6 +4,8 @@
   "deno.enable": true,
   "deno.lint": true,
   "deno.unstable": false,
+  "deno.codeLens.test": true, // default : `true`
+  "deno.codeLens.testArgs": ["--allow-all", "--unstable"], // default : `[ "--allow-all" ]`
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     "source.organizeImports": true
