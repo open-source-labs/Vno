@@ -1,7 +1,6 @@
 import Vue from "https://deno.land/x/vue_js@0.0.5/mod.js";
-import * as fs from "https://deno.land/std@0.83.0/fs/mod.ts";
+import { fs, path } from "../utils/deps.ts";
 import * as vueCompiler from "https://denopkg.com/crewdevio/vue-deno-compiler/mod.ts";
-import * as path from "https://deno.land/std@0.99.0/path/mod.ts";
 import { getExport, getTags, Mapped, VueExport } from "./utils.ts";
 
 export interface Component {
@@ -160,7 +159,7 @@ const makeVue = (
 
 /**
  * Converting the component config to a string.
-*/
+ */
 export const serializeComponentConfig = (
   input: any,
   short = false,
@@ -212,7 +211,7 @@ export const serializeComponentConfig = (
 
 /**
  * Write the client side js for every component. This is needed for client side 'hydration'.
-*/
+ */
 const writeClientJs = async (
   cmps: Component[],
   mode: "development" | "production" = "development",

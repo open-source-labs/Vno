@@ -1,6 +1,5 @@
 import Vue from "https://deno.land/x/vue_js@0.0.5/mod.js";
-import * as fs from "https://deno.land/std@0.99.0/fs/mod.ts";
-import * as path from "https://deno.land/std@0.99.0/path/mod.ts";
+import { fs, path } from "../utils/deps.ts";
 import renderer from "https://deno.land/x/vue_server_renderer@0.0.4/mod.js";
 import { Language, minify } from "https://deno.land/x/minifier@v1.1.1/mod.ts";
 import {

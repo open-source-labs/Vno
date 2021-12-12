@@ -1,5 +1,4 @@
-import * as path from "https://deno.land/std@0.99.0/path/mod.ts";
-import * as fs from "https://deno.land/std@0.83.0/fs/mod.ts";
+import { fs, path } from "../utils/deps.ts";
 import { Language, minify } from "https://deno.land/x/minifier@v1.1.1/mod.ts";
 
 export type Mapped<T> = { [key: string]: T };

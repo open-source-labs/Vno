@@ -1,5 +1,4 @@
-import * as path from "https://deno.land/std@0.99.0/path/mod.ts";
-import * as fs from "https://deno.land/std@0.83.0/fs/mod.ts";
+import { fs, path } from "../utils/deps.ts";
 import { File } from "./compile.ts";
 import { files } from "./universal.ts";
 

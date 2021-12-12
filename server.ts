@@ -1,24 +1,22 @@
 import { opine, serveStatic } from "https://deno.land/x/opine@1.3.3/mod.ts";
-import  vueServerRenderer from 'https://deno.land/x/vue_server_renderer@/mod.js';
+import vueServerRenderer from "https://deno.land/x/vue_server_renderer@/mod.js";
 
-import App from './vno-ssr/build.js';
-import { join, dirname} from "https://deno.land/std@0.63.0/path/mod.ts";
-import  styles  from './vno-ssr/style.js'
+import App from "./vno-ssr/build.js";
+import { path } from "./core/utils/deps.ts";
+import styles from "./vno-ssr/style.js";
 
-const port = 3000
+const port = 3000;
 const app = opine();
-app.use(serveStatic('vno-build'));
-const __dirname = dirname(import.meta.url);
+app.use(serveStatic("vno-build"));
+const __dirname = path.dirname(import.meta.url);
 
 app.use("/", (req, res, next) => {
+  let rendered;
+  vueServerRenderer(App, (err: any, res: any) => {
+    rendered = res;
+  });
 
-      let rendered;
-      vueServerRenderer(App, (err:any, res:any) => {
-        rendered = res;
-      });
-
-      const html =
-      `<html>
+  const html = `<html>
          <head>
 
             ${styles}
@@ -30,10 +28,9 @@ app.use("/", (req, res, next) => {
          </body>
        </html>`;
 
-    res.type("text/html").send(html);
-  });
+  res.type("text/html").send(html);
+});
 
 app.listen({ port });
 
 console.log(`Vue SSR App listening on port ${port}`);
-
