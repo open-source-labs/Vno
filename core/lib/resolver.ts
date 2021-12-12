@@ -9,18 +9,18 @@ export const _script: Resolve.Source = async function (data, path, tsCheck) {
   if (typeof data === "string") {
     throw new TypeError("invalid arguments");
   }
-//"^" beginning of line
-//"\s" looks for whitespace
-//looking for export
-//"*" 0 or more
-//() capture group: please find any in capture group and also allow you to remember it refer
-//to it by $1,2,3 etc.. like postgres $1, $2 for points you want to make dynamic.
-//so later you can change the $1 that you can find and replace
+  //"^" beginning of line
+  //"\s" looks for whitespace
+  //looking for export
+  //"*" 0 or more
+  //() capture group: please find any in capture group and also allow you to remember it refer
+  //to it by $1,2,3 etc.. like postgres $1, $2 for points you want to make dynamic.
+  //so later you can change the $1 that you can find and replace
   const start = utils.indexOfRegExp(/^\s*(export)/, data);
   const end = data.lastIndexOf("}");
 
   const trimmed = data.slice(start + 1, end).join("\n");
-//grabed trim a string of key:value pairs and putting it inside object
+  //grabed trim a string of key:value pairs and putting it inside object
   let script = tsCheck
     ? await typescriptCompile(`({ ${trimmed} })`, path)
     : trimmed as string;
@@ -78,7 +78,6 @@ export const _dependants: Resolve.Attrs = function (curr, arr, storage, queue) {
     }
   }
 };
-
 
 //vno struggles with third party imports in component file.
 //this collects all potential imports.  inserts them at the top of the bundle - not working perfectly

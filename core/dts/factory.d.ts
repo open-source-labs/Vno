@@ -66,9 +66,9 @@ export interface Config {
    */
 
   router?: string;
-   /**
-    * router - version? what gets passed in as value?
-    */
+  /**
+   * router - version? what gets passed in as value?
+   */
   options?: {
     /**
      * options to further customize vno
@@ -77,6 +77,11 @@ export interface Config {
     /**
      * preferred port for dev server
      * default: 3000
+     */
+    reloadPort?: number;
+    /**
+     * preferred port for dev server reload
+     * default: 8080
      */
     title?: string;
     /**
@@ -87,7 +92,6 @@ export interface Config {
      * preferred host
      * default: "0.0.0.0"
      */
-
   };
 }
 export declare namespace Vue {
