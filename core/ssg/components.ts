@@ -1,5 +1,5 @@
 import Vue from "https://deno.land/x/vue_js@0.0.5/mod.js";
-import * as fs from "https://deno.land/std@0.83.0/fs/mod.ts";
+import * as fs from "https://deno.land/std@0.123.0/fs/mod.ts";
 import * as vueCompiler from "https://denopkg.com/crewdevio/vue-deno-compiler/mod.ts";
 import * as path from "https://deno.land/std@0.99.0/path/mod.ts";
 import { getExport, getTags, Mapped, VueExport } from "./utils.ts";
